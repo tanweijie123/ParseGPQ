@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ParseGPQ:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ParseGPQ_jar</output-path>
+    <root id="archive" name="ParseGPQ.jar">
+      <element id="module-output" name="ParseGPQ" />
+    </root>
+  </artifact>
+</component>
