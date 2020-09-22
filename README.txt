@@ -8,6 +8,8 @@ There are 3 input files for this program.
 /data/gpq.txt
 /data/assign.txt
 
+Output: /data/output.csv
+
 
 *******************************************************************************************
 /data/gpq.txt file contains the participants for this upcoming gpq assignment.
@@ -54,6 +56,11 @@ Syntax for each database entry:
     *Do take note that IGN is case-sensitive, and alias is not case-sensitive
 
 **WARNING: Do not put any other notes within database.txt; it will be removed for every run
+
+*******************************************************************************************
+
+/data/output.csv is an output file which is the same team allocation as displayed on screen. 
+This file will be overwritten after every execution.
 
 *******************************************************************************************
 

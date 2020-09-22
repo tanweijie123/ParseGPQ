@@ -32,6 +32,15 @@ public class Tunnel {
         }
     }
 
+    /**
+     * Sort from highest to lowest floor for every team
+     */
+    public void sortByFloor() {
+        team1.sortByFloor();
+        team2.sortByFloor();
+        team3.sortByFloor();
+    }
+
     public boolean isFull() {
         return team1.isFull() && team2.isFull() && team3.isFull();
     }

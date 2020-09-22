@@ -36,6 +36,7 @@ public class Main {
         }
 
         printTunnelDetails(tunnelList);
+        exportTunnel(tunnelList);
     }
 
     public static void loadDatabase(List<String> databaseList) throws IOException {
@@ -122,8 +123,8 @@ public class Main {
                     } catch (NumberFormatException e) {
                     }
                 }
-
-                charList.add(c);
+                if (!charList.contains(c)) //TODO: change into TreeSet?
+                    charList.add(c);
             }
         }
 
@@ -144,14 +145,20 @@ public class Main {
 
         for (String s : assignList) {
             String ign = s.substring(0, s.indexOf(">"));
-
             Character c = null;
-            if (aliasMap.containsKey(ign)) {
-                c = aliasMap.get(ign);
-            } else if (aliasMap.containsKey(ign.toLowerCase())) {
-                c = aliasMap.get(ign.toLowerCase());
+
+            if (ign.contains("*")) { //Job assignment
+                String[] split = ign.split("\\*");
+                c = participantList.stream().filter(x -> split[1].equalsIgnoreCase(x.job)).findFirst().orElse(null);
+            } else {
+                if (aliasMap.containsKey(ign)) {
+                    c = aliasMap.get(ign);
+                } else if (aliasMap.containsKey(ign.toLowerCase())) {
+                    c = aliasMap.get(ign.toLowerCase());
+                }
             }
 
+            boolean success = false;
             if (participantList.contains(c)) {
                 try {
                     int tunnel = Integer.parseInt(s.substring(s.indexOf(">") + 1, s.indexOf("_")).strip());
@@ -164,32 +171,34 @@ public class Main {
                             if (t.team1 == null)
                                 t.team1 = new Team();
 
-                            t.team1.addMember(c);
+                            success = t.team1.addMember(c);
                             break;
 
                         case 2:
                             if (t.team2 == null)
                                 t.team2 = new Team();
 
-                            t.team2.addMember(c);
+                            success = t.team2.addMember(c);
                             break;
                         case 3:
                             if (t.team3 == null)
                                 t.team3 = new Team();
 
-                            t.team3.addMember(c);
+                            success = t.team3.addMember(c);
                             break;
                     }
-
-                    participantList.remove(c);
-
                 } catch (NumberFormatException e) {
                     System.err.printf("%s is invalid format.\n", s);
                 } //Do nothing if parse failed
             }
+
+            if (success)
+                participantList.remove(c);
+            else {
+                System.out.println("Unable to assign: " + s);
+            }
         }
 
-        //tunnelList.sort(Comparator.comparingInt(x -> x.id));
         return tunnelList;
     }
 
@@ -211,6 +220,7 @@ public class Main {
 
         for (int i = 1; i <= tunnelList.size(); i++) {
             Tunnel t = tunnelList.get(i-1);
+            t.sortByFloor();
 
             System.out.println("===================================== TUNNEL " + t.id + " =====================================");
 
@@ -225,22 +235,66 @@ public class Main {
                     if (t.team3.teamList.size() > j)
                         third = t.team3.teamList.get(j).print();
 
-                    if (j != 0) {
-                        System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n",
-                                " " + first,
-                                " " + second,
-                                " " + third);
-                    } else {
-                        System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n",
-                                " <LDR>" + first,
-                                " <LDR>" + second,
-                                " <LDR>" + third);
-                    }
-                } catch (IndexOutOfBoundsException e) {
-                    break;
-                }
+                    System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n",
+                            " " + first,
+                            " " + second,
+                            " " + third);
+                } catch (IndexOutOfBoundsException e) { } //Not possible to happen
             }
             System.out.println("================================== END OF TUNNEL " + t.id + " ==================================\n");
+        }
+    }
+
+    private static void exportTunnel(List<Tunnel> tunnelList) {
+        tunnelList.sort(Comparator.comparingInt(x -> x.id));
+        List<String> export = new ArrayList<>();
+
+        if (!date.isBlank())
+            export.add("Date: " + date);
+
+        for (int i = 0; i < tunnelList.size(); i++) {
+            Tunnel t = tunnelList.get(i);
+            t.sortByFloor();
+
+            //Print header
+            export.add(",,,Tunnel " + t.id + ",,,");
+            export.add(",Team1,Floor,Team2,Floor,Team3,Floor");
+
+            for (int j = 0; j < 6; j++) {
+                String join = ",";
+
+                if (t.team1.teamList.size() > j) {
+                    join += t.team1.teamList.get(j).ign + "," + t.team1.teamList.get(j).floor + ",";
+                } else {
+                    join += ",,";
+                }
+
+                if (t.team2.teamList.size() > j) {
+                    join += t.team2.teamList.get(j).ign + "," + t.team2.teamList.get(j).floor + ",";
+                } else {
+                    join += ",,";
+                }
+
+                if (t.team3.teamList.size() > j) {
+                    join += t.team3.teamList.get(j).ign + "," + t.team3.teamList.get(j).floor + ",";
+                } else {
+                    join += ",,";
+                }
+
+                export.add(join);
+            }
+            export.add("\n");
+        }
+
+
+        //---------------------------------------------------------------------------------------------
+
+        Storage s = new Storage("data/output.csv");
+        try {
+            s.saveToFile(export);
+            System.out.println("Saved a copy to /data/output.csv !");
+        } catch (IOException e) {
+            System.err.println("Saving to output file failed!");
         }
     }
 

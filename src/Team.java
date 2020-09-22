@@ -24,6 +24,15 @@ public class Team {
         return teamList.size();
     }
 
+    /**
+     * Sort from highest to lowest floor for this team
+     */
+    public void sortByFloor() {
+        teamList.sort( (Character x, Character y) -> {
+            return Integer.compare(y.floor,x.floor);
+        });
+    }
+
     @Override
     public String toString() {
         String ret = "[LEADER] ";
