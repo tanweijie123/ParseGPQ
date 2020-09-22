@@ -40,7 +40,16 @@ Using alias within assign.txt is fine.
 Syntax for each entry: 
     Syntax:  <IGN>>TUNNEL#_TEAM#
     Example: iUnder18>1_2
-// This represents that "iUnder18" is assigned to Tunnel 1, Team 2
+    * This represents that "iUnder18" is assigned to Tunnel 1, Team 2
+
+
+Jobs can also be specified in this file. 
+Syntax for job assign entry: 
+    Syntax:  *<JOB>*>TUNNEL#_TEAM#
+    Example: *KANNA*>1_2
+    * <JOB> is not case sensitive, but it must match the database / gpq.txt text. 
+    * This command will pick the next highest floor Kanna and place it in Tunnel 1 Team 2 (based on the file sequence). 
+
 
 *******************************************************************************************
 Database file contains the database of existing members information and their alias. 
