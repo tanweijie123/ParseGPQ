@@ -1,4 +1,4 @@
-Version:	1.1
+Version:	1.2
 Date: 		20/09/2020
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -6,7 +6,6 @@ There are 3 input files for this program.
 
 ## Do not change the file name ##
 /data/gpq.txt
-/data/database.txt
 /data/assign.txt
 
 
@@ -31,22 +30,6 @@ Other types of delimiter allowed: (. , <space>)
 *If one of these 3 delimeters are not used, the entire line will be used as ign. 
 
 *******************************************************************************************
-/data/database.txt file contains the database of existing members. 
-You may want to maintain this file to ensure its correctness. (eg. remove existing alias, add members) 
-Alias are only accepted if they are manually added here. (Unless you want a new feature) 
-Database is sorted in alphabetical order.
-If there is a new ign from gpq.txt, it will be added to this file automatically. 
-
-Syntax for each database entry: 
-    Syntax:   <IGN>{<JOB>,<FLOOR>}=[<alias1>, <alias2>, ...] 
-    Example:  MooJieJie{NL,100}=[moo, cow]
-
-    *Do take note that IGN is case-sensitive, and alias is not case-sensitive
-
-**WARNING: Do not put any other notes within database.txt; it will be removed for every run
-
-
-*******************************************************************************************
 /data/assign.txt file contains the hard assignment of members
 Members in this file will be assigned to the team first. 
 Members who are in assign.txt must be a participant (inside gpq.txt) in order for it to be part of the team. 
@@ -58,10 +41,23 @@ Syntax for each entry:
 // This represents that "iUnder18" is assigned to Tunnel 1, Team 2
 
 *******************************************************************************************
+Database file contains the database of existing members information and their alias. 
+It is hosted online on codepile: https://www.codepile.net/pile/PrNjYerZ
+The program will automatically download from this page for every execution. 
+
+Alias are only accepted if they are manually added here.
+
+Syntax for each database entry: 
+    Syntax:   <IGN>{<JOB>,<FLOOR>}=[<alias1>, <alias2>, ...] 
+    Example:  MooJieJie{NL,50}=[moo, cow]
+
+    *Do take note that IGN is case-sensitive, and alias is not case-sensitive
+
+**WARNING: Do not put any other notes within database.txt; it will be removed for every run
+
+*******************************************************************************************
 
 General note: 
-1. You may use "//" within assign.txt and gpq.txt to indicate notes. These will be ignored by the program.
-2. Do not use any note within database.txt. It will be removed. 
-3. It is recommended to backup database.txt frequently.
-4. If you need help, extract template.zip and run to see the output. 
+1. You may use "//" within assign.txt, gpq.txt and database (located online) to indicate notes. These will be ignored by the program.
+2. If you need help, extract template.zip and run to see the output. 
 

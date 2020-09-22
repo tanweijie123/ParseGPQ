@@ -3,22 +3,24 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
 public class Main {
     public static HashMap<String, Character> aliasMap = new HashMap<>();
     public static String date = "";
 
     public static void main(String[] args) throws IOException {
-        Storage database = new Storage("data/database.txt");
-        loadDatabase(database);
+
+        try {
+            //codepile link: https://www.codepile.net/pile/PrNjYerZ
+            Database database = new Database("https://www.codepile.net/raw/PrNjYerZ.rdoc");
+            loadDatabase(database.load());
+        } catch (IOException e) {
+            System.err.println("Unable to load from codepile...");
+        }
 
         Storage participants = new Storage("data/gpq.txt");
         List<Character> participantList = loadParticipants(participants);
-        saveDatabase(database);
 
         participantList.sort(Comparator.comparingInt((Character x) -> x.floor).reversed());
         printAllParticipants(participantList);
@@ -36,11 +38,17 @@ public class Main {
         printTunnelDetails(tunnelList);
     }
 
-    public static void loadDatabase(Storage database) throws IOException {
-        List<String> databaseList = database.load();
+    public static void loadDatabase(List<String> databaseList) throws IOException {
 
+        String regex = "[A-Za-z0-9]+\\{[A-Za-z0-9]*,\\d\\d?\\}=\\[[A-Za-z0-9, ]*\\]";
         for (int i = 0; i < databaseList.size(); i++) {
             String line = databaseList.get(i);
+
+            if (!Pattern.matches(regex, line)) {
+                System.out.println("Does not match regex: " + line);
+                continue;
+            }
+
             String ign = line.substring(0, line.indexOf("{"));
             String job = line.substring(line.indexOf("{") + 1, line.indexOf(","));
             String floor = line.substring(line.indexOf(",") + 1, line.indexOf("}"));
@@ -57,18 +65,6 @@ public class Main {
                 aliasMap.put(s.toLowerCase(), c); //ALL ALIAS matches CASE INSENSITIVE , ALL LOWER CASE
             }
         }
-    }
-
-    public static void saveDatabase(Storage database) throws IOException {
-        List<String> export = aliasMap.entrySet()
-                .stream()
-                .map(x -> x.getValue())
-                .distinct()
-                .sorted(Comparator.comparing(x -> x.ign))
-                .map(x -> x.export())
-                .collect(Collectors.toList());
-
-        database.saveToFile(export);
     }
 
     public static List<Character> loadParticipants(Storage participants) throws IOException {
