@@ -116,6 +116,9 @@ public class Main {
 
                 if (split.length > 2) {
                     try {
+                        if (split[2].contains("(")) {
+                            split[2] = split[2].substring(0, split[2].indexOf("("));
+                        }
                         int flr = Integer.parseInt(split[2].trim());
                         if (flr != 0) {
                             c.floor = flr;
@@ -218,7 +221,7 @@ public class Main {
             System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n", " Team 1:", " Team 2:", " Team 3:");
             for (int j = 0; j < 6; j++) {
                 try {
-                    String first = "", second = "", third = "";
+                    String first = "~~~~~EMPTY~~~~~", second = "~~~~~EMPTY~~~~~", third = "~~~~~EMPTY~~~~~";
                     if (t.team1.teamList.size() > j)
                         first = t.team1.teamList.get(j).print();
                     if (t.team2.teamList.size() > j)
