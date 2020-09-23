@@ -41,7 +41,7 @@ public class Main {
 
     public static void loadDatabase(List<String> databaseList) throws IOException {
 
-        String regex = "[A-Za-z0-9]+\\{[A-Za-z0-9]*,\\d\\d?\\}=\\[[A-Za-z0-9, ]*\\]";
+        String regex = "[A-Za-z0-9]+\\{[A-Za-z0-9_]*,\\d\\d?\\}=\\[[A-Za-z0-9, ]*\\]";
         for (int i = 0; i < databaseList.size(); i++) {
             String line = databaseList.get(i);
 
@@ -289,13 +289,9 @@ public class Main {
 
         //---------------------------------------------------------------------------------------------
 
-        Storage s = new Storage("data/output.csv");
-        try {
-            s.saveToFile(export);
-            System.out.println("Saved a copy to /data/output.csv !");
-        } catch (IOException e) {
-            System.err.println("Saving to output file failed!");
-        }
+        ExportExcel excelExport = new ExportExcel("data/output.xlsx");
+        String[][] arr = export.stream().map(x -> x.split(",")).toArray(String[][]::new);
+        excelExport.export(arr);
     }
 
     /** HELPER METHODS */
