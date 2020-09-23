@@ -283,13 +283,14 @@ public class Main {
 
                 export.add(join);
             }
-            export.add("\n");
+            export.add("");
+            export.add("");
         }
 
 
         //---------------------------------------------------------------------------------------------
 
-        ExportExcel excelExport = new ExportExcel("data/output.xlsx");
+        ExportExcel excelExport = new ExportExcel("data/output.xlsx", (!date.isBlank()));
         String[][] arr = export.stream().map(x -> x.split(",")).toArray(String[][]::new);
         excelExport.export(arr);
     }

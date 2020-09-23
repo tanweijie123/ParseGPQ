@@ -18,7 +18,7 @@ sourceSets {
 }
 dependencies {
 
-    compile "org.apache.poi:poi-ooxml:3.9"
+    compile "org.apache.poi:poi-ooxml:4.1.2"
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.0'

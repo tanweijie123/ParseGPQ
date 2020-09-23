@@ -15,9 +15,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExportExcel {
     private String outputFilePath;
+    private boolean dateExist;
+    private int dateLineModifier;
 
-    public ExportExcel(String filePath) {
+    public ExportExcel(String filePath, boolean dateExist) {
         this.outputFilePath = filePath;
+        this.dateExist = dateExist;
+
+        this.dateLineModifier = (dateExist) ? 1 : 0;
     }
 
     public void export(String[][] content) {
@@ -35,7 +40,7 @@ public class ExportExcel {
             Row row = sheet.createRow(i);
 
             //TUNNEL HEADER
-            if ((i-1) % 10 == 0) {
+            if ((i-dateLineModifier) % 10 == 0) {
 
                 //Make Cell Style Border + Align Centre
                 XSSFCellStyle cellStyle = wb.createCellStyle();
