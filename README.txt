@@ -2,13 +2,13 @@ Version:	1.2
 Date: 		22/09/2020
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-There are 3 input files for this program. 
+There are 3 input files (1 database hosted online) for this program. 
 
 ## Do not change the file name ##
 /data/gpq.txt
 /data/assign.txt
 
-Output: /data/output.csv
+Output: /data/output.xlsx
 
 
 *******************************************************************************************
@@ -68,7 +68,7 @@ Syntax for each database entry:
 
 *******************************************************************************************
 
-/data/output.csv is an output file which is the same team allocation as displayed on screen. 
+/data/output.xlsx is an output file which is the same team allocation as displayed on screen. 
 This file will be overwritten after every execution.
 
 *******************************************************************************************
