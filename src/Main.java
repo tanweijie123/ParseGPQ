@@ -22,7 +22,7 @@ public class Main {
         Storage participants = new Storage("data/gpq.txt");
         List<Character> participantList = loadParticipants(participants);
 
-        participantList.sort(Comparator.comparingInt((Character x) -> x.floor).reversed());
+        participantList.sort(Comparator.comparingInt((Character x) -> x.getFloor()).reversed());
         printAllParticipants(participantList);
 
         //Start assigning
@@ -37,6 +37,8 @@ public class Main {
 
         printTunnelDetails(tunnelList);
         exportTunnel(tunnelList);
+        printNewMembers();
+        printModifiedMembers();
     }
 
     public static void loadDatabase(List<String> databaseList) throws IOException {
@@ -57,7 +59,7 @@ public class Main {
             line = line.substring(line.indexOf("[") + 1, line.indexOf("]"));
             String[] aliasSplit = line.split(",");
 
-            Character c = new Character(ign, job, Integer.parseInt(floor), aliasSplit);
+            Character c = new Character(ign, job, Integer.parseInt(floor), aliasSplit, false);
 
             //TODO: check for duplicate ign in aliasMap
             aliasMap.put(ign, c);
@@ -81,7 +83,7 @@ public class Main {
             } else {
 
                 String[] split = current.split("/");
-                Character c = new Character();
+                Character c = null;
 
                 if (split.length > 0) { //at least have name
                     split[0] = split[0].strip();
@@ -95,33 +97,31 @@ public class Main {
                         split[0] = split[0].substring(split[0].indexOf(" ") + 1);
                     } // else: the whole split[0] considered as IGN.
 
-                    c.ign = split[0].strip();
-                    if (aliasMap.containsKey(c.ign)) {
-                        c = aliasMap.get(c.ign);
-                    } else if (aliasMap.containsKey(c.ign.toLowerCase())) { //Matched ALIAS
-                        c = aliasMap.get(c.ign.toLowerCase());
+                    String ign = split[0].strip();
+                    if (aliasMap.containsKey(ign)) {
+                        c = aliasMap.get(ign);
+                    } else if (aliasMap.containsKey(ign.toLowerCase())) { //Matched ALIAS
+                        c = aliasMap.get(ign.toLowerCase());
                     } else {
-                        aliasMap.put(c.ign, c);
+                        c = new Character(ign);
+                        aliasMap.put(ign, c);
                     }
                 }
 
                 if (split.length > 1) { //have name + (job or floor)
-                    if (c.job.equals("")) {
-                        c.job = split[1].strip();
+                    trySetFloor(c, split[1]);
+                    if (c.getFloor() == 0) {
+                        if (c.getJob().equals("")) {
+                            c.setJob(split[1].strip());
+                        }
                     }
                 }
 
                 if (split.length > 2) {
-                    try {
-                        if (split[2].contains("(")) {
-                            split[2] = split[2].substring(0, split[2].indexOf("("));
-                        }
-                        int flr = Integer.parseInt(split[2].trim());
-                        if (flr != 0) {
-                            c.floor = flr;
-                        }
-                    } catch (NumberFormatException e) {
+                    if (split[2].contains("(")) {
+                        split[2] = split[2].substring(0, split[2].indexOf("("));
                     }
+                    trySetFloor(c, split[2]);
                 }
                 if (!charList.contains(c)) //TODO: change into TreeSet?
                     charList.add(c);
@@ -149,7 +149,7 @@ public class Main {
 
             if (ign.contains("*")) { //Job assignment
                 String[] split = ign.split("\\*");
-                c = participantList.stream().filter(x -> split[1].equalsIgnoreCase(x.job)).findFirst().orElse(null);
+                c = participantList.stream().filter(x -> split[1].equalsIgnoreCase(x.getJob())).findFirst().orElse(null);
             } else {
                 if (aliasMap.containsKey(ign)) {
                     c = aliasMap.get(ign);
@@ -264,19 +264,19 @@ public class Main {
                 String join = ",";
 
                 if (t.team1.teamList.size() > j) {
-                    join += t.team1.teamList.get(j).ign + "," + t.team1.teamList.get(j).floor + ",";
+                    join += t.team1.teamList.get(j).getIgn() + "," + t.team1.teamList.get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
 
                 if (t.team2.teamList.size() > j) {
-                    join += t.team2.teamList.get(j).ign + "," + t.team2.teamList.get(j).floor + ",";
+                    join += t.team2.teamList.get(j).getIgn() + "," + t.team2.teamList.get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
 
                 if (t.team3.teamList.size() > j) {
-                    join += t.team3.teamList.get(j).ign + "," + t.team3.teamList.get(j).floor + ",";
+                    join += t.team3.teamList.get(j).getIgn() + "," + t.team3.teamList.get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
@@ -295,6 +295,31 @@ public class Main {
         excelExport.export(arr);
     }
 
+    /**
+     * Prints the members that are not in the database, i.e. new to gpq
+     */
+    private static void printNewMembers() {
+        System.out.println("Consider adding these (if correct info) to the database ~");
+        aliasMap.values().stream()
+                .distinct()
+                .filter(x -> x.isNew)
+                .filter(x -> x.getFloor() != 0 && !x.getJob().isBlank())
+                .map(x -> x.export())
+                .forEach(System.out::println);
+        System.out.println();
+    }
+
+    private static void printModifiedMembers() {
+        System.out.println("Consider modifying these (if correct info) to the database ~");
+        aliasMap.values().stream()
+                .distinct()
+                .filter(x -> x.isModified)
+                .filter(x -> x.getFloor() != 0 && !x.getJob().isBlank())
+                .map(x -> x.export())
+                .forEach(System.out::println);
+        System.out.println();
+    }
+
     /** HELPER METHODS */
     private static Tunnel getTunnelOrCreateNew(List<Tunnel> tunnelList, int tunnelID) {
         return tunnelList.stream()
@@ -305,6 +330,24 @@ public class Main {
                     tunnelList.add(tu);
                     return tu;
                 });
+    }
+
+    private static void trySetFloor(Character c, String floor) {
+        c.setFloor(getNumberFromStr(floor));
+    }
+
+    /**
+     * Tries to parse a string into an integer.
+     * @param number The string which contains the number.
+     * @return the number in the string. If it is not a number, -1 will be returned.
+     */
+    private static int getNumberFromStr(String number) {
+        try {
+            int num = Integer.parseInt(number.trim());
+            return num;
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
 }

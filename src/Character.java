@@ -2,29 +2,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Character {
-    public String ign;
-    public String job;
-    public int floor;
+    private final String ign;
+    private String job;
+    private int floor;
     public List<String> alias;
+    public boolean isNew;
+    public boolean isModified;
 
-    public Character() {
-        this.ign = "";
+    public Character(String ign) {
+        this.ign = ign;
         this.job = "";
         this.floor = 0;
         alias = new ArrayList<>();
+        isNew = true;
+        isModified = false;
     }
 
-    public Character (String ign, String job, int floor, String[] alias) {
+    public Character (String ign, String job, int floor, String[] alias, boolean isNew) {
         this.ign = ign;
         this.job = job;
         this.floor = floor;
         this.alias = new ArrayList<>();
+        this.isNew = isNew;
+        this.isModified = false;
 
         if (alias != null) {
             for (String s : alias) {
                 if (!s.strip().isBlank())
                     this.alias.add(s.strip());
             }
+        }
+
+        this.isNew = false;
+    }
+
+    public String getIgn() {
+        return this.ign;
+    }
+
+    public String getJob() {
+        return this.job;
+    }
+
+    public void setJob(String job) {
+        if (!job.isBlank() && !this.job.equalsIgnoreCase(job)) {
+            if (!this.isNew)
+                this.isModified = true;
+            this.job = job;
+        }
+    }
+
+    public int getFloor() {
+        return this.floor;
+    }
+
+    public void setFloor(int floor) {
+        int floorToEdit = Math.max(0, floor);
+        if (floorToEdit != 0 && floorToEdit != this.floor) {
+            if (!this.isNew)
+                this.isModified = true;
+            this.floor = floorToEdit;
         }
     }
 

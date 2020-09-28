@@ -29,7 +29,7 @@ public class Team {
      */
     public void sortByFloor() {
         teamList.sort( (Character x, Character y) -> {
-            return Integer.compare(y.floor,x.floor);
+            return Integer.compare(y.getFloor(),x.getFloor());
         });
     }
 
@@ -38,7 +38,7 @@ public class Team {
         String ret = "[LEADER] ";
 
         for (int i = 0; i < teamList.size(); i++) {
-            ret += teamList.get(i).ign + "[" + teamList.get(i).floor + "]\n";
+            ret += teamList.get(i).getIgn() + "[" + teamList.get(i).getFloor() + "]\n";
         }
         return ret;
     }
