@@ -1,8 +1,17 @@
-Version:	1.2
-Date: 		22/09/2020
+Version:	1.3
+Date: 		28/09/2020
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+
+# General Information
+This program will take a list of people and allocate them into gpq tunnels / teams. 
 There are 3 input files (1 database hosted online) for this program. 
+The output of this program will be shown on screen, as well as an excel output file in /data/output.xlsx
+
+Note: If there are participants that are not found within the database, they will still be allocated based on 
+      their given <IGN>/<JOB>/<FLOOR>. A prompt will display for the sysadmin to update the database manually. 
+
+      You can use this method to update the floor of participants. <IGN>/<JOB>/<FLOOR> or <IGN>/<FLOOR>
 
 ## Do not change the file name ##
 /data/gpq.txt
@@ -70,6 +79,7 @@ Syntax for each database entry:
 
 /data/output.xlsx is an output file which is the same team allocation as displayed on screen. 
 This file will be overwritten after every execution.
+On the right of allocation, these are new / modified entries that you might want to update your database manually to reflect the changes. 
 
 *******************************************************************************************
 
