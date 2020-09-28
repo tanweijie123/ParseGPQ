@@ -25,7 +25,7 @@ public class ExportExcel {
         this.dateLineModifier = (dateExist) ? 1 : 0;
     }
 
-    public void export(String[][] content) {
+    public void export(String[][] content, String databaseMods) {
         XSSFWorkbook wb = new XSSFWorkbook();
         XSSFSheet sheet = wb.createSheet("output");
 
@@ -90,6 +90,17 @@ public class ExportExcel {
             sheet.autoSizeColumn(1);
             sheet.autoSizeColumn(3);
             sheet.autoSizeColumn(5);
+        }
+
+        //Add database mods
+        //Append the database modification beside tunnel 1
+        String[] split = databaseMods.split("\n");
+        for (int i = 1; i <= split.length; i++) {
+            Row row = sheet.getRow(i);
+            if (row == null)
+                row = sheet.createRow(i);
+            Cell cell = row.createCell(8);
+            cell.setCellValue(split[i-1]);
         }
 
         try (FileOutputStream output = new FileOutputStream(outputFilePath)) {

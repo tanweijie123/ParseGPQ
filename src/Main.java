@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 public class Main {
     public static HashMap<String, Character> aliasMap = new HashMap<>();
     public static String date = "";
+    private static String databaseMods = "";
 
     public static void main(String[] args) throws IOException {
 
@@ -36,9 +38,10 @@ public class Main {
         }
 
         printTunnelDetails(tunnelList);
-        exportTunnel(tunnelList);
         printNewMembers();
         printModifiedMembers();
+        exportTunnel(tunnelList);
+
     }
 
     public static void loadDatabase(List<String> databaseList) throws IOException {
@@ -292,32 +295,44 @@ public class Main {
 
         ExportExcel excelExport = new ExportExcel("data/output.xlsx", (!date.isBlank()));
         String[][] arr = export.stream().map(x -> x.split(",")).toArray(String[][]::new);
-        excelExport.export(arr);
+        excelExport.export(arr, databaseMods);
     }
 
     /**
      * Prints the members that are not in the database, i.e. new to gpq
      */
     private static void printNewMembers() {
-        System.out.println("Consider adding these (if correct info) to the database ~");
+        List<String> printOut = new ArrayList<>();
+        printOut.add("Consider adding these (if correct info) to the database ~");
         aliasMap.values().stream()
                 .distinct()
                 .filter(x -> x.isNew)
                 .filter(x -> x.getFloor() != 0 && !x.getJob().isBlank())
                 .map(x -> x.export())
-                .forEach(System.out::println);
-        System.out.println();
+                .forEach(printOut::add);
+
+        String out = Arrays.toString(printOut.toArray());
+        out = out.substring(1, out.length()-1).replace(", ", "\n");
+        System.out.println(out);
+
+        databaseMods += out + "\n";
     }
 
     private static void printModifiedMembers() {
-        System.out.println("Consider modifying these (if correct info) to the database ~");
+        List<String> printOut = new ArrayList<>();
+        printOut.add("Consider modifying these (if correct info) to the database ~");
         aliasMap.values().stream()
                 .distinct()
                 .filter(x -> x.isModified)
                 .filter(x -> x.getFloor() != 0 && !x.getJob().isBlank())
                 .map(x -> x.export())
-                .forEach(System.out::println);
-        System.out.println();
+                .forEach(printOut::add);
+
+        String out = Arrays.toString(printOut.toArray());
+        out = out.substring(1, out.length()-1).replace(", ", "\n");
+        System.out.println(out);
+
+        databaseMods += out + "\n";
     }
 
     /** HELPER METHODS */
