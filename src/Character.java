@@ -19,8 +19,8 @@ public class Character {
     }
 
     public Character (String ign, String job, int floor, String[] alias, boolean isNew) {
-        this.ign = ign;
-        this.job = job;
+        this.ign = ign.strip();
+        this.job = job.strip();
         this.floor = floor;
         this.alias = new ArrayList<>();
         this.isNew = isNew;
@@ -79,6 +79,6 @@ public class Character {
 
     @Override
     public String toString() {
-        return String.format("[%s | %s] -> FLOOR %d", this.ign, this.job, this.floor);
+        return String.format("[%s | %s (F%d)] -> %s", this.ign, this.job, this.floor, this.alias.toString());
     }
 }

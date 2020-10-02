@@ -5,7 +5,7 @@ public class Team {
     public List<Character> teamList;
 
     public Team() {
-        teamList = new ArrayList();
+        teamList = new ArrayList<>();
     }
 
     public boolean addMember(Character c) {

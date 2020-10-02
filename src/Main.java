@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Main {
+    public static final String DATABASE_REGEX = "[A-Za-z0-9]+\\{[A-Z_]*,\\d\\d?\\}=\\[[A-Za-z0-9, .]*\\]";
     public static HashMap<String, Character> aliasMap = new HashMap<>();
     public static String date = "";
     private static String databaseMods = "";
@@ -46,11 +47,11 @@ public class Main {
 
     public static void loadDatabase(List<String> databaseList) throws IOException {
 
-        String regex = "[A-Za-z0-9]+\\{[A-Za-z0-9_]*,\\d\\d?\\}=\\[[A-Za-z0-9, ]*\\]";
+
         for (int i = 0; i < databaseList.size(); i++) {
             String line = databaseList.get(i);
 
-            if (!Pattern.matches(regex, line)) {
+            if (!Pattern.matches(DATABASE_REGEX, line)) {
                 System.out.println("Does not match regex: " + line);
                 continue;
             }
