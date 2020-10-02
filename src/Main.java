@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +37,7 @@ public class Main {
             tunnelID++;
         }
 
+        compactEveryTunnel(tunnelList);
         printTunnelDetails(tunnelList);
         printNewMembers();
         printModifiedMembers();
@@ -69,7 +69,7 @@ public class Main {
             aliasMap.put(ign, c);
 
             for (String s : aliasSplit) {
-                aliasMap.put(s.toLowerCase(), c); //ALL ALIAS matches CASE INSENSITIVE , ALL LOWER CASE
+                aliasMap.put(s.toLowerCase().strip(), c); //ALL ALIAS matches CASE INSENSITIVE , ALL LOWER CASE
             }
         }
     }
@@ -206,6 +206,10 @@ public class Main {
         return tunnelList;
     }
 
+    public static void compactEveryTunnel(List<Tunnel> tunnelList) {
+        tunnelList.stream().forEach(Tunnel::compact);
+    }
+
     public static void assignTunnel2(List<Tunnel> tunnelList, List<Character> charList, int tunnelID) {
         Tunnel t = getTunnelOrCreateNew(tunnelList, tunnelID);
 
@@ -312,11 +316,9 @@ public class Main {
                 .map(x -> x.export())
                 .forEach(printOut::add);
 
-        String out = Arrays.toString(printOut.toArray());
-        out = out.substring(1, out.length()-1).replace(", ", "\n");
+        String out = appendLines("", printOut);
         System.out.println(out);
-
-        databaseMods += out + "\n";
+        databaseMods += out;
     }
 
     private static void printModifiedMembers() {
@@ -329,11 +331,9 @@ public class Main {
                 .map(x -> x.export())
                 .forEach(printOut::add);
 
-        String out = Arrays.toString(printOut.toArray());
-        out = out.substring(1, out.length()-1).replace(", ", "\n");
+        String out = appendLines("", printOut);
         System.out.println(out);
-
-        databaseMods += out + "\n";
+        databaseMods += out;
     }
 
     /** HELPER METHODS */
@@ -364,6 +364,17 @@ public class Main {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+
+    private static String appendLines(String mainString, List<String> toAppend) {
+        if (mainString == null)
+            mainString = "";
+
+        for (String s : toAppend) {
+            mainString += s + "\n";
+        }
+
+        return mainString;
     }
 
 }

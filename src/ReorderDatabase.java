@@ -52,7 +52,7 @@ public class ReorderDatabase {
     private static void mergeAlias(List<String> existingAlias, String[] newAlias) {
         for (String s : newAlias) {
             s = s.strip();
-            if (!existingAlias.contains(s) && !s.isBlank())
+            if (!existingAlias.stream().anyMatch("search_value"::equalsIgnoreCase) && !s.isBlank())
                 existingAlias.add(s);
         }
     }

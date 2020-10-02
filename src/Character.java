@@ -20,7 +20,7 @@ public class Character {
 
     public Character (String ign, String job, int floor, String[] alias, boolean isNew) {
         this.ign = ign.strip();
-        this.job = job.strip();
+        this.job = job.strip().toUpperCase();
         this.floor = floor;
         this.alias = new ArrayList<>();
         this.isNew = isNew;
@@ -48,7 +48,7 @@ public class Character {
         if (!job.isBlank() && !this.job.equalsIgnoreCase(job)) {
             if (!this.isNew)
                 this.isModified = true;
-            this.job = job;
+            this.job = job.toUpperCase();
         }
     }
 

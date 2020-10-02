@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Tunnel {
     public int id;
     public Team team1;
@@ -43,6 +45,39 @@ public class Tunnel {
 
     public boolean isFull() {
         return team1.isFull() && team2.isFull() && team3.isFull();
+    }
+
+    /**
+     * Reorganise the tunnel (compact) if every team is not full.
+     * Tries to shrink as many half parties as possible.
+     */
+    public void compact() {
+        if (!isFull()) {
+            int capacity = team1.size() + team2.size() + team3.size();
+            int numTeams = (int) Math.ceil(capacity / 6.0);
+
+            assert(numTeams <= 3 && numTeams >= 0);
+
+            if (numTeams == 2) { //can be shrink into 1 or 2 parties
+                List<Character> list = team3.teamList;
+                while (list.size() > 0) {
+                    if (team1.size () > team2.size())
+                        team2.addMember(list.remove(0));
+                    else
+                        team1.addMember(list.remove(0));
+                }
+            } else if (numTeams == 1) {
+                List<Character> list = team3.teamList;
+                while (list.size() > 0) {
+                    team1.addMember(list.remove(0));
+                }
+                list = team2.teamList;
+                while (list.size() > 0) {
+                    team1.addMember(list.remove(0));
+                }
+            }
+
+        }
     }
 
     @Override
