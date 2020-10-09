@@ -2,13 +2,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ReorderDatabase {
     private static List<Character> characterList = new ArrayList<>();
     public static void main(String[] args) throws IOException {
-        Database database = new Database("https://www.codepile.net/raw/PrNjYerZ.rdoc");
+        Database database = new Database("https://pastebin.com/raw/46Z9CNEY");
         List<String> data = database.load();
 
         data.stream().forEach(x -> {
@@ -52,8 +53,13 @@ public class ReorderDatabase {
     private static void mergeAlias(List<String> existingAlias, String[] newAlias) {
         for (String s : newAlias) {
             s = s.strip();
-            if (!existingAlias.stream().anyMatch("search_value"::equalsIgnoreCase) && !s.isBlank())
+            if(checkUniqueIgnoreCase(existingAlias, s))
                 existingAlias.add(s);
         }
+    }
+
+    private static boolean checkUniqueIgnoreCase(List<String> existingAlias, String s) {
+        Optional<String> result = existingAlias.stream().filter(x -> x.equalsIgnoreCase(s)).findFirst();
+        return result.isEmpty();
     }
 }

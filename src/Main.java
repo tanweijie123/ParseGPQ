@@ -15,7 +15,8 @@ public class Main {
 
         try {
             //codepile link: https://www.codepile.net/pile/PrNjYerZ
-            Database database = new Database("https://www.codepile.net/raw/PrNjYerZ.rdoc");
+            //pastebin link: https://pastebin.com/raw/46Z9CNEY
+            Database database = new Database("https://pastebin.com/raw/46Z9CNEY");
             loadDatabase(database.load());
         } catch (IOException e) {
             System.err.println("Unable to load from codepile...");

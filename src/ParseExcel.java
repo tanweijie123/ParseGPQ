@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ParseExcel {
-    private static String data = "data/formInput.xlsx";
+    private static String data = "data/form.xlsx";
     private static List<Character> importCharList = new ArrayList<>();
     private static List<String> uniqueAlias = new ArrayList<>();
 

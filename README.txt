@@ -62,7 +62,7 @@ Syntax for job assign entry:
 
 *******************************************************************************************
 Database file contains the database of existing members information and their alias. 
-It is hosted online on codepile: https://www.codepile.net/pile/PrNjYerZ
+It is hosted online on codepile: https://www.codepile.net/pile/PrNjYerZ, https://pastebin.com/46Z9CNEY (main)
 The program will automatically download from this page for every execution. 
 
 Alias are only accepted if they are manually added here.
