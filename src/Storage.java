@@ -51,13 +51,13 @@ public class Storage {
         assert(this.file.canRead());
 
         List<String> content = new ArrayList<>();
-            Scanner readFile = new Scanner(file);
-            while(readFile.hasNextLine()) {
-                String ln = readFile.nextLine();
-                if (!ln.startsWith("//") && !ln.isBlank()) //Treat all // as comment lines
-                    content.add(ln);
-            }
-
+        Scanner readFile = new Scanner(file);
+        while(readFile.hasNextLine()) {
+            String ln = readFile.nextLine();
+            if (!ln.startsWith("//") && !ln.isBlank()) //Treat all // as comment lines
+                content.add(ln);
+        }
+        readFile.close();
         return content;
     }
 
