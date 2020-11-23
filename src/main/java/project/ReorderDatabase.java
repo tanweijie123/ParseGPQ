@@ -1,3 +1,5 @@
+package project;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -5,6 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import project.model.Character;
+import project.util.Database;
+import project.util.Storage;
 
 public class ReorderDatabase {
     private static List<Character> characterList = new ArrayList<>();

@@ -20,8 +20,8 @@ dependencies {
 
     compile "org.apache.poi:poi-ooxml:4.1.2"
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.0'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.0'
+    compile 'org.junit.jupiter:junit-jupiter-api:5.4.0'
+    compile 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 }
 
 test {
@@ -39,7 +39,7 @@ test {
 }
 
 application {
-    mainClassName = "Main"
+    mainClassName = "project.Main"
 }
 
 shadowJar {

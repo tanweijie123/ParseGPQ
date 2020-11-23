@@ -1,9 +1,17 @@
+package project;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import project.model.Character;
+import project.model.Team;
+import project.model.Tunnel;
+import project.util.Database;
+import project.util.Storage;
 
 public class Main {
     public static final String DATABASE_REGEX = "[A-Za-z0-9]+\\{[A-Z_]*,\\d\\d?\\}=\\[[A-Za-z0-9, .]*\\]";
@@ -154,7 +162,8 @@ public class Main {
 
             if (ign.contains("*")) { //Job assignment
                 String[] split = ign.split("\\*");
-                c = participantList.stream().filter(x -> split[1].equalsIgnoreCase(x.getJob())).findFirst().orElse(null);
+                c = participantList.stream().filter(x -> split[1].equalsIgnoreCase(x.getJob()))
+                        .sorted((x, y) -> Integer.compare(y.getFloor(),x.getFloor())).findFirst().orElse(null);
             } else {
                 if (aliasMap.containsKey(ign)) {
                     c = aliasMap.get(ign);
