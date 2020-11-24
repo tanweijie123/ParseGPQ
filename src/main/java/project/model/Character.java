@@ -38,11 +38,13 @@ public class Character {
 
         job = job.strip().toUpperCase();
 
+        /*
         if (job.isBlank())
-            System.err.printf("[WARNING]: %s does not have a job\n", ign);
+            System.out.printf("[WARNING]: %s does not have a job\n", ign);
 
         if (floor == 0)
-            System.err.printf("[WARNING]: %s does not have a floor\n", ign);
+            System.out.printf("[WARNING]: %s does not have a floor\n", ign);
+*/
 
         this.ign = ign;
         this.job = job;
