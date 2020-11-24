@@ -70,8 +70,8 @@ public class ParseExcel {
                 }
             }
 
-            Character c = new Character(ign.getStringCellValue(), jobStr, (int) floor.getNumericCellValue(),
-                    aliasStr, true);
+            Character c = new Character(ign.getStringCellValue()).setJob(jobStr)
+                    .setFloor((int) floor.getNumericCellValue()).setAlias(aliasStr);
             importCharList.add(c);
         }
     }

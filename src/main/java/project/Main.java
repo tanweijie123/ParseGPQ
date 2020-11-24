@@ -48,8 +48,8 @@ public class Main {
 
         compactEveryTunnel(tunnelList);
         printTunnelDetails(tunnelList);
-        printNewMembers();
-        printModifiedMembers();
+        //printNewMembers();
+        //printModifiedMembers();
         exportTunnel(tunnelList);
 
     }
@@ -72,7 +72,7 @@ public class Main {
             line = line.substring(line.indexOf("[") + 1, line.indexOf("]"));
             String[] aliasSplit = line.split(",");
 
-            Character c = new Character(ign, job, Integer.parseInt(floor), aliasSplit, false);
+            Character c = new Character(ign).setJob(job).setFloor(Integer.parseInt(floor)).setAlias(aliasSplit);
 
             //TODO: check for duplicate ign in aliasMap
             aliasMap.put(ign, c);
@@ -313,9 +313,7 @@ public class Main {
         excelExport.export(arr, databaseMods);
     }
 
-    /**
-     * Prints the members that are not in the database, i.e. new to gpq
-     */
+    /*
     private static void printNewMembers() {
         List<String> printOut = new ArrayList<>();
         printOut.add("Consider adding these (if correct info) to the database ~");
@@ -345,6 +343,7 @@ public class Main {
         System.out.println(out);
         databaseMods += out;
     }
+    */
 
     /** HELPER METHODS */
     private static Tunnel getTunnelOrCreateNew(List<Tunnel> tunnelList, int tunnelID) {
