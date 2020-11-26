@@ -4,13 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static project.testutil.CharacterList.CHARACTER_A;
+import static project.testutil.CharacterList.CHARACTER_B;
+import static project.testutil.CharacterList.CHARACTER_C;
+import static project.testutil.CharacterList.CHARACTER_D;
+import static project.testutil.CharacterList.CHARACTER_E;
+import static project.testutil.CharacterList.CHARACTER_F;
+import static project.testutil.CharacterList.CHARACTER_G;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.function.Executable;
 
 class CharacterTest {
@@ -53,6 +59,62 @@ class CharacterTest {
     }
 
     @Test
+    public void setAlias_emptyAlias_blankAliasReturned() {
+        String ign = "avbc12";
+        String alias_empty = "";
+        String alias_blank = "   ";
+        String alias_null = null;
+        String[] alias_array_empty = new String[] {};
+        String[] alias_array_blank = new String[] {"  "};
+        String[] alias_array_null = null;
+        List<String> expectedAlias = new ArrayList<>();
+        Character c = new Character(ign);
+
+        assertEquals(expectedAlias, c.setAlias(alias_null).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_empty).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_blank).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_null).setAlias(alias_blank).getAlias());
+
+        assertEquals(expectedAlias, c.setAlias(alias_array_null).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_array_empty).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_array_blank).getAlias());
+        assertEquals(expectedAlias, c.setAlias(alias_array_null).setAlias(alias_array_blank).getAlias());
+    }
+
+    @Test
+    public void setAlias_appendAlias_existingAlias_success() {
+        String ign = "avbc12";
+        String alias = "ello";
+        String appendAlias = "newone";
+        List<String> expectedAlias = Arrays.asList("ello", "newone");
+
+        Character c = new Character(ign).setAlias(alias).setAlias(appendAlias);
+        assertEquals(expectedAlias, c.getAlias());
+    }
+
+    @Test
+    public void setAlias_appendAlias_existingAliasArray_success() {
+        String ign = "avbc12";
+        String[] alias = new String[] { "ello" };
+        String appendAlias = "newone";
+        List<String> expectedAlias = Arrays.asList("ello", "newone");
+
+        Character c = new Character(ign).setAlias(alias).setAlias(appendAlias);
+        assertEquals(expectedAlias, c.getAlias());
+    }
+
+    @Test
+    public void setAlias_appendAliasBlank_noChange() {
+        String ign = "avbc12";
+        String[] alias = new String[] { "ello" };
+        String appendAlias = "";
+        List<String> expectedAlias = Arrays.asList("ello");
+
+        Character c = new Character(ign).setAlias(alias).setAlias(appendAlias);
+        assertEquals(expectedAlias, c.getAlias());
+    }
+
+    @Test
     public void setAlias_appendAlias_noExistingAlias_success() {
         String ign = "avbc12";
         String[] alias = new String[] { "" };
@@ -75,18 +137,92 @@ class CharacterTest {
     }
 
     @Test
-    public void setAlias_appendAlias_existingAlias_success() {
-        String ign = "avbc12";
-        String[] alias = new String[] { "ello" };
-        String appendAlias = "newone";
-        List<String> expectedAlias = Arrays.asList("ello", "newone");
+    public void setJob_getJob_success() {
+        Character c = new Character("SteveJ0bs");
+        assertEquals("", c.getJob()); //default blank jobs
 
-        Character c = new Character(ign).setAlias(alias).setAlias(appendAlias);
-        assertEquals(expectedAlias, c.getAlias());
+        //ep: null, blank, empty
+        assertEquals("", c.setJob(null).getJob());
+        assertEquals("", c.setJob("").getJob());
+        assertEquals("", c.setJob("   ").getJob());
+
+        //ep: any non-blank text
+        assertEquals("notNullWithoutSpace".toUpperCase(), c.setJob("notNullWithoutSpace").getJob());
+        assertEquals("notNullWith Space".toUpperCase(), c.setJob("notNullWith Space").getJob());
+        assertEquals("$pec!@L C#@^ac*ter".toUpperCase(), c.setJob("$pec!@L C#@^ac*ter").getJob()); //restrict in the future
+    }
+
+    @Test
+    public void setFloor_getFloor_success() {
+        Character c = new Character("setFloorTester");
+
+        assertEquals(0, c.getFloor()); //default 0 floor
+
+        //ep: 0 floor
+        assertEquals(0, c.setFloor(0).getFloor());
+
+        //ep: negative floor
+        assertEquals(0, c.setFloor(-1).getFloor());
+        assertEquals(0, c.setFloor(Integer.MIN_VALUE).getFloor());
+
+        //ep: > 0
+        assertEquals(22, c.setFloor(22).getFloor());
+        assertEquals(50, c.setFloor(50).getFloor());
+        assertEquals(Integer.MAX_VALUE, c.setFloor(Integer.MAX_VALUE).getFloor()); //to restrict in the future
+    }
+
+    //missing print, export, printMissingFields testcases
+
+    @Test
+    public void toString_testcases_success() {
+        assertEquals("[AAaa123 |  (F0)] -> []", CHARACTER_A.toString());
+        assertEquals("[BBbb234 | KANNA (F0)] -> []", CHARACTER_B.toString());
+        assertEquals("[cCcc09 | EVAN (F20)] -> []", CHARACTER_C.toString());
+        assertEquals("[DDDd |  (F50)] -> [woke]", CHARACTER_D.toString());
+        assertEquals("[eeEEeeee0E |  (F1)] -> [wut, mkie]", CHARACTER_E.toString());
+        assertEquals("[f | PHANTOM (F22)] -> [mesosack, richguy]", CHARACTER_F.toString());
+        assertEquals("[gg | HAYATO (F60)] -> []", CHARACTER_G.toString());
+    }
+
+    @Test
+    public void equals_testcases_success() {
+        assertTrue(CHARACTER_A.equals(CHARACTER_A));
+        assertFalse(CHARACTER_A.equals(CHARACTER_B));
+        assertFalse(CHARACTER_B.equals(CHARACTER_A));
+
+        //changed values equality
+        assertFalse(CHARACTER_A.equals(CHARACTER_A.setFloor(20)));
+        assertFalse(CHARACTER_A.equals(CHARACTER_A.setJob("Woof")));
+        assertFalse(CHARACTER_A.equals(CHARACTER_A.setAlias("mehh")));
+
+        //changed and reset back attributes
+        assertTrue(CHARACTER_F.equals(CHARACTER_F.setFloor(20).setFloor(22)));
+        assertTrue(CHARACTER_F.equals(CHARACTER_F.setJob("Kaiser").setJob("Phantom")));
+        assertTrue(CHARACTER_F.equals(CHARACTER_F.setAlias(" ")));
+    }
+
+    @Test
+    public void hashCode_testcases_success() {
+        //this method is a reflection of equals() testcases
+
+        assertTrue(CHARACTER_A.hashCode() == CHARACTER_A.hashCode());
+        assertFalse(CHARACTER_A.hashCode() == CHARACTER_B.hashCode());
+        assertFalse(CHARACTER_B.hashCode() == CHARACTER_A.hashCode());
+
+        //changed values equality
+        assertFalse(CHARACTER_A.hashCode() == CHARACTER_A.setFloor(20).hashCode());
+        assertFalse(CHARACTER_A.hashCode() == CHARACTER_A.setJob("Woof").hashCode());
+        assertFalse(CHARACTER_A.hashCode() == CHARACTER_A.setAlias("mehh").hashCode());
+
+        //changed and reset back attributes
+        assertTrue(CHARACTER_F.hashCode() == CHARACTER_F.setFloor(20).setFloor(22).hashCode());
+        assertTrue(CHARACTER_F.hashCode() == CHARACTER_F.setJob("Kaiser").setJob("Phantom").hashCode());
+        assertTrue(CHARACTER_F.hashCode() == CHARACTER_F.setAlias(" ").hashCode());
     }
 
     @Test
     public void toString_equals_hashcode_get_test() {
+        //big bang test case
         String ign = "fallguy011";
         String job = "adele";
         int floor = 28;

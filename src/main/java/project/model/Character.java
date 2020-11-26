@@ -24,7 +24,7 @@ public class Character {
     public Character(String ign) {
         ign = ign.strip();
 
-        if (ign.isBlank() || !IGN_REGEX.matcher(ign).matches())
+        if (!IGN_REGEX.matcher(ign).matches())
             throw new IllegalArgumentException("[ERROR]: Given IGN is empty or invalid");
 
         this.ign = ign;
@@ -34,27 +34,15 @@ public class Character {
     }
 
     private Character(String ign, String job, int floor, String[] alias) {
-        //assumes ign is valid. because check is done in previous constructor
-
-        job = job.strip().toUpperCase();
-
-        /*
-        if (job.isBlank())
-            System.out.printf("[WARNING]: %s does not have a job\n", ign);
-
-        if (floor == 0)
-            System.out.printf("[WARNING]: %s does not have a floor\n", ign);
-*/
+        assert(IGN_REGEX.matcher(ign).matches());
+        assert(floor >= 0);
+        assert(alias != null);
 
         this.ign = ign;
-        this.job = job;
+        this.job = job.strip().toUpperCase();
         this.floor = floor;
+        this.alias = Arrays.stream(alias).map(x -> x.strip()).filter(x -> !x.isBlank()).collect(Collectors.toList());
 
-        if (alias != null) {
-            this.alias = Arrays.stream(alias).map(x -> x.strip()).filter(x -> !x.isBlank()).collect(Collectors.toList());
-        } else {
-            this.alias = new ArrayList<>();
-        }
     }
 
     public String getIgn() {
@@ -74,19 +62,24 @@ public class Character {
     }
 
     public Character setJob(String job) {
+        if (job == null) job = "";
         return new Character(this.ign, job, this.floor, this.alias.toArray(new String[0]));
     }
 
     public Character setFloor(int floor) {
+        if (floor < 0) floor = 0;
         return new Character(this.ign, this.job, floor, this.alias.toArray(new String[0]));
     }
 
     public Character setAlias(String s) {
-        this.alias.add(s.strip());
-        return new Character(this.ign, this.job, this.floor, this.alias.toArray(new String[0]));
+        if (s == null || s.isBlank()) return this;
+        List<String> newList = new ArrayList<>(this.alias);
+        newList.add(s.strip());
+        return new Character(this.ign, this.job, this.floor, newList.toArray(new String[0]));
     }
 
     public Character setAlias(String[] s) {
+        if (s == null) return this;
         return new Character(this.ign, this.job, this.floor, s);
     }
 
@@ -104,6 +97,10 @@ public class Character {
      */
     public String export() {
         return String.format("%s{%s,%d}=%s", this.ign, this.job, this.floor, this.alias.toString());
+    }
+
+    public void printMissingFields() {
+        throw new UnsupportedOperationException("Print Missing fields is not yet supported");
     }
 
     @Override

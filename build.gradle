@@ -46,3 +46,7 @@ shadowJar {
     archiveBaseName = "ParseGPQ"
     archiveClassifier = null
 }
+
+run {
+    enableAssertions = true
+}
