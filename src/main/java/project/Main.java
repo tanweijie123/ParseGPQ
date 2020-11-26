@@ -1,16 +1,17 @@
 package project;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import project.files.Download;
 import project.model.Character;
 import project.model.Team;
 import project.model.Tunnel;
-import project.util.Database;
 import project.util.Storage;
 
 public class Main {
@@ -24,10 +25,10 @@ public class Main {
         try {
             //codepile link: https://www.codepile.net/pile/PrNjYerZ
             //pastebin link: https://pastebin.com/raw/46Z9CNEY
-            Database database = new Database("https://pastebin.com/raw/46Z9CNEY");
-            loadDatabase(database.load());
+            Download pasteBin = new Download(new URL("https://pastebin.com/raw/46Z9CNEY"));
+            loadDatabase(pasteBin.downloadAsListOfString());
         } catch (IOException e) {
-            System.err.println("Unable to load from codepile...");
+            System.err.println("Unable to load from pastebin...");
         }
 
         Storage participants = new Storage("data/gpq.txt");

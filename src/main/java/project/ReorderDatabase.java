@@ -1,6 +1,7 @@
 package project;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,15 +9,15 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import project.files.Download;
 import project.model.Character;
-import project.util.Database;
 import project.util.Storage;
 
 public class ReorderDatabase {
     private static List<Character> characterList = new ArrayList<>();
     public static void main(String[] args) throws IOException {
-        Database database = new Database("https://pastebin.com/raw/46Z9CNEY");
-        List<String> data = database.load();
+        Download pasteBin = new Download(new URL("https://pastebin.com/raw/46Z9CNEY"));
+        List<String> data = pasteBin.downloadAsListOfString();
 
         data.stream().forEach(x -> {
             if (!Pattern.matches(Main.DATABASE_REGEX, x)) {
