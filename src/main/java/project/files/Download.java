@@ -36,10 +36,12 @@ public class Download {
         if (outputFile.isDirectory())
             throw new IllegalArgumentException("File given is a directory. Expected file.");
 
+        BufferedInputStream inStream = null;
+        FileOutputStream file = null;
         try {
             outputFile.mkdirs();
-            BufferedInputStream inStream = new BufferedInputStream(url.openStream());
-            FileOutputStream file = new FileOutputStream(outputFile);
+            inStream = new BufferedInputStream(url.openStream());
+            file = new FileOutputStream(outputFile);
             file.write(inStream.readAllBytes());
             file.flush();
             file.close();
@@ -51,6 +53,11 @@ public class Download {
         } catch (IOException e) {
             System.err.println("Unable to get from link or connect to link. This could be due to network issue, " +
                     "or your Google Sheet is not open for unlisted download.");
+        } finally {
+            try {
+                file.close();
+                inStream.close();
+            } catch (NullPointerException | IOException e) { }
         }
         return false;
     }
