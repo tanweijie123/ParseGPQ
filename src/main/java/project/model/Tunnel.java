@@ -1,6 +1,7 @@
 package project.model;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Creates a immutable Tunnel
@@ -46,7 +47,7 @@ public class Tunnel {
     }
 
     /**
-     * Gets the team with the lowest number of participants
+     * Gets the team with the lowest number of participants. If there is a tie, the first team found will be returned.
      */
     public Team getLowestTeam() {
         int min = Math.min(Math.min(team1.size(), team2.size()), team3.size());
@@ -101,12 +102,26 @@ public class Tunnel {
                     team1.addMember(list.remove(0));
                 }
             }
-
         }
     }
 
     @Override
     public String toString() {
        return String.format("Team 1:\n%s\nTeam2:\n%s\nTeam3:\n%s", team1.toString(), team2.toString(), team3.toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Tunnel)) return false;
+
+        Tunnel oth = (Tunnel) o;
+        return (oth.id == this.id && oth.team1.equals(this.team1) && oth.team2.equals(this.team2)
+                && oth.team3.equals(this.team3));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.team1, this.team2, this.team3);
     }
 }

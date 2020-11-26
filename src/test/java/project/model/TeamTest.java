@@ -14,6 +14,7 @@ import static project.testutil.CharacterList.CHARACTER_G;
 import static project.testutil.TeamList.TEAM_A_SINGLE_MEMBER;
 import static project.testutil.TeamList.TEAM_B_TWO_MEMBERS;
 import static project.testutil.TeamList.TEAM_C_FULL_TEAM;
+import static project.testutil.TeamList.TEAM_D_TWO_MEMBERS;
 import static project.testutil.TeamList.TEAM_ZERO_MEMBERS;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ class TeamTest {
         assertEquals(Arrays.asList(CHARACTER_A, CHARACTER_B, CHARACTER_C, CHARACTER_D, CHARACTER_E, CHARACTER_F),
                 TEAM_C_FULL_TEAM.getTeamList());
 
+        assertEquals(Arrays.asList(CHARACTER_C, CHARACTER_D), TEAM_D_TWO_MEMBERS.getTeamList());
     }
 
     @Test
@@ -76,6 +78,7 @@ class TeamTest {
         assertEquals(false, TEAM_A_SINGLE_MEMBER.isFull());
         assertEquals(false, TEAM_B_TWO_MEMBERS.isFull());
         assertEquals(true, TEAM_C_FULL_TEAM.isFull());
+        assertEquals(false, TEAM_D_TWO_MEMBERS.isFull());
     }
 
     @Test
@@ -84,6 +87,7 @@ class TeamTest {
         assertEquals(1, TEAM_A_SINGLE_MEMBER.size());
         assertEquals(2, TEAM_B_TWO_MEMBERS.size());
         assertEquals(6, TEAM_C_FULL_TEAM.size());
+        assertEquals(2, TEAM_D_TWO_MEMBERS.size());
     }
 
     @Test
@@ -166,6 +170,7 @@ class TeamTest {
         assertEquals("[LEADER] AAaa123[0]\n", TEAM_A_SINGLE_MEMBER.toString());
         assertEquals("[LEADER] AAaa123[0]\nBBbb234[0]\n", TEAM_B_TWO_MEMBERS.toString());
         assertEquals("[LEADER] AAaa123[0]\nBBbb234[0]\ncCcc09[20]\nDDDd[50]\neeEEeeee0E[1]\nf[22]\n", TEAM_C_FULL_TEAM.toString());
+        assertEquals("[LEADER] cCcc09[20]\nDDDd[50]\n", TEAM_D_TWO_MEMBERS.toString());
     }
 
     @Test
@@ -183,5 +188,8 @@ class TeamTest {
         Team t3 = new Team();
         assertTrue(t1.hashCode() != t3.hashCode());
         assertFalse(t1.equals(t3));
+
+        assertFalse(TEAM_B_TWO_MEMBERS.hashCode() == TEAM_D_TWO_MEMBERS.hashCode());
+        assertFalse(TEAM_B_TWO_MEMBERS.equals(TEAM_D_TWO_MEMBERS));
     }
 }
