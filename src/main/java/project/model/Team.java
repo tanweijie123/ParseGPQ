@@ -2,15 +2,26 @@ package project.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Team {
-    public List<Character> teamList;
+    private List<Character> teamList;
 
     public Team() {
         teamList = new ArrayList<>();
     }
 
+    public Character get(int index) {
+        return teamList.get(index);
+    }
+
+    public List<Character> getTeamList() {
+        return teamList;
+    }
+
     public boolean addMember(Character c) {
+        if (c == null) return false;
+
         if (teamList.size() < 6) {
             teamList.add(c);
             return true;
@@ -27,11 +38,13 @@ public class Team {
     }
 
     /**
-     * Sort from highest to lowest floor for this team
+     * Sort from highest to lowest floor for this team, if same floor level, sort by IGN.
      */
     public void sortByFloor() {
         teamList.sort( (Character x, Character y) -> {
-            return Integer.compare(y.getFloor(),x.getFloor());
+            int compare = Integer.compare(y.getFloor(),x.getFloor());
+            if (compare != 0) return compare;
+            return x.getIgn().compareTo(y.getIgn());
         });
     }
 
@@ -43,5 +56,19 @@ public class Team {
             ret += teamList.get(i).getIgn() + "[" + teamList.get(i).getFloor() + "]\n";
         }
         return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Team)) return false;
+
+        Team oth = (Team) o;
+        return (oth.teamList.equals(this.teamList));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.teamList);
     }
 }

@@ -49,8 +49,8 @@ public class Main {
 
         compactEveryTunnel(tunnelList);
         printTunnelDetails(tunnelList);
-        printNewMembers();
-        printModifiedMembers();
+        //printNewMembers();
+        //printModifiedMembers();
         exportTunnel(tunnelList);
 
     }
@@ -73,7 +73,7 @@ public class Main {
             line = line.substring(line.indexOf("[") + 1, line.indexOf("]"));
             String[] aliasSplit = line.split(",");
 
-            Character c = new Character(ign, job, Integer.parseInt(floor), aliasSplit, false);
+            Character c = new Character(ign).setJob(job).setFloor(Integer.parseInt(floor)).setAlias(aliasSplit);
 
             //TODO: check for duplicate ign in aliasMap
             aliasMap.put(ign, c);
@@ -181,27 +181,8 @@ public class Main {
 
                     Tunnel t = getTunnelOrCreateNew(tunnelList, tunnel);
 
-                    switch (team) {
-                        case 1:
-                            if (t.team1 == null)
-                                t.team1 = new Team();
-
-                            success = t.team1.addMember(c);
-                            break;
-
-                        case 2:
-                            if (t.team2 == null)
-                                t.team2 = new Team();
-
-                            success = t.team2.addMember(c);
-                            break;
-                        case 3:
-                            if (t.team3 == null)
-                                t.team3 = new Team();
-
-                            success = t.team3.addMember(c);
-                            break;
-                    }
+                    if (team >= 1 && team <= 3)
+                        t.getAllTeam()[team-1].addMember(c);
                 } catch (NumberFormatException e) {
                     System.err.printf("%s is invalid format.\n", s);
                 } //Do nothing if parse failed
@@ -231,7 +212,7 @@ public class Main {
     }
 
     public static void printTunnelDetails(List<Tunnel> tunnelList) {
-        tunnelList.sort(Comparator.comparingInt(x -> x.id));
+        tunnelList.sort(Comparator.comparingInt(x -> x.getId()));
         System.out.println("===================================== ASSIGNING ====================================");
 
         if (!date.isBlank())
@@ -241,18 +222,18 @@ public class Main {
             Tunnel t = tunnelList.get(i-1);
             t.sortByFloor();
 
-            System.out.println("===================================== TUNNEL " + t.id + " =====================================");
+            System.out.println("===================================== TUNNEL " + t.getId() + " =====================================");
 
             System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n", " Team 1:", " Team 2:", " Team 3:");
             for (int j = 0; j < 6; j++) {
                 try {
                     String first = "~~~~~EMPTY~~~~~", second = "~~~~~EMPTY~~~~~", third = "~~~~~EMPTY~~~~~";
-                    if (t.team1.teamList.size() > j)
-                        first = t.team1.teamList.get(j).print();
-                    if (t.team2.teamList.size() > j)
-                        second = t.team2.teamList.get(j).print();
-                    if (t.team3.teamList.size() > j)
-                        third = t.team3.teamList.get(j).print();
+                    if (t.getTeam1().size() > j)
+                        first = t.getTeam1().get(j).print();
+                    if (t.getTeam2().size() > j)
+                        second = t.getTeam2().get(j).print();
+                    if (t.getTeam3().size() > j)
+                        third = t.getTeam3().get(j).print();
 
                     System.out.printf(" ||%-25.25s||%-25.25s||%-25.25s||\n",
                             " " + first,
@@ -260,12 +241,12 @@ public class Main {
                             " " + third);
                 } catch (IndexOutOfBoundsException e) { } //Not possible to happen
             }
-            System.out.println("================================== END OF TUNNEL " + t.id + " ==================================\n");
+            System.out.println("================================== END OF TUNNEL " + t.getId() + " ==================================\n");
         }
     }
 
     private static void exportTunnel(List<Tunnel> tunnelList) {
-        tunnelList.sort(Comparator.comparingInt(x -> x.id));
+        tunnelList.sort(Comparator.comparingInt(x -> x.getId()));
         List<String> export = new ArrayList<>();
 
         if (!date.isBlank())
@@ -276,26 +257,26 @@ public class Main {
             t.sortByFloor();
 
             //Print header
-            export.add(",,,Tunnel " + t.id + ",,,");
+            export.add(",,,Tunnel " + t.getId() + ",,,");
             export.add(",Team1,Floor,Team2,Floor,Team3,Floor");
 
             for (int j = 0; j < 6; j++) {
                 String join = ",";
 
-                if (t.team1.teamList.size() > j) {
-                    join += t.team1.teamList.get(j).getIgn() + "," + t.team1.teamList.get(j).getFloor() + ",";
+                if (t.getTeam1().size() > j) {
+                    join += t.getTeam1().get(j).getIgn() + "," + t.getTeam1().get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
 
-                if (t.team2.teamList.size() > j) {
-                    join += t.team2.teamList.get(j).getIgn() + "," + t.team2.teamList.get(j).getFloor() + ",";
+                if (t.getTeam2().size() > j) {
+                    join += t.getTeam2().get(j).getIgn() + "," + t.getTeam2().get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
 
-                if (t.team3.teamList.size() > j) {
-                    join += t.team3.teamList.get(j).getIgn() + "," + t.team3.teamList.get(j).getFloor() + ",";
+                if (t.getTeam3().size() > j) {
+                    join += t.getTeam3().get(j).getIgn() + "," + t.getTeam3().get(j).getFloor() + ",";
                 } else {
                     join += ",,";
                 }
@@ -314,9 +295,7 @@ public class Main {
         excelExport.export(arr, databaseMods);
     }
 
-    /**
-     * Prints the members that are not in the database, i.e. new to gpq
-     */
+    /*
     private static void printNewMembers() {
         List<String> printOut = new ArrayList<>();
         printOut.add("Consider adding these (if correct info) to the database ~");
@@ -346,11 +325,12 @@ public class Main {
         System.out.println(out);
         databaseMods += out;
     }
+    */
 
     /** HELPER METHODS */
     private static Tunnel getTunnelOrCreateNew(List<Tunnel> tunnelList, int tunnelID) {
         return tunnelList.stream()
-                .filter(x -> x.id == tunnelID)
+                .filter(x -> x.getId() == tunnelID)
                 .findFirst()
                 .orElseGet(() -> {
                     Tunnel tu = new Tunnel(tunnelID);

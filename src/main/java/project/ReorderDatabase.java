@@ -35,12 +35,12 @@ public class ReorderDatabase {
             //check if ign exist within list
             Character c = getByIgn(ign);
             if (c == null) {
-                c = new Character(ign, job, Integer.parseInt(floor), aliasSplit, false);
+                c = new Character(ign).setJob(job).setFloor(Integer.parseInt(floor)).setAlias(aliasSplit);
                 characterList.add(c);
             } else { //edited only floor or alias
                 if (c.getFloor() != Integer.parseInt(floor))
                     c.setFloor(Integer.parseInt(floor));
-                mergeAlias(c.alias, aliasSplit);
+                mergeAlias(c.getAlias(), aliasSplit);
             }
         });
 
