@@ -2,6 +2,7 @@ package project.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static project.testutil.CharacterList.CHARACTER_A;
 import static project.testutil.CharacterList.CHARACTER_B;
@@ -15,9 +16,41 @@ import static project.testutil.TeamList.TEAM_B_TWO_MEMBERS;
 import static project.testutil.TeamList.TEAM_C_FULL_TEAM;
 import static project.testutil.TeamList.TEAM_ZERO_MEMBERS;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 class TeamTest {
+
+    @Test
+    public void getByIndex_testcases() {
+        assertThrows(IndexOutOfBoundsException.class, () -> TEAM_C_FULL_TEAM.get(7));
+        assertThrows(IndexOutOfBoundsException.class, () -> TEAM_ZERO_MEMBERS.get(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> TEAM_ZERO_MEMBERS.get(-1));
+
+        Team actualTeam = TEAM_A_SINGLE_MEMBER;
+        assertEquals(CHARACTER_A, actualTeam.get(0));
+
+        actualTeam = TEAM_B_TWO_MEMBERS;
+        assertEquals(CHARACTER_B, actualTeam.get(1));
+
+        actualTeam = TEAM_C_FULL_TEAM;
+        assertEquals(CHARACTER_F, actualTeam.get(5));
+    }
+
+    @Test
+    public void getTeamList_testcases() {
+        assertEquals(new ArrayList<Character>(), TEAM_ZERO_MEMBERS.getTeamList());
+
+        assertEquals(Arrays.asList(CHARACTER_A), TEAM_A_SINGLE_MEMBER.getTeamList());
+
+        assertEquals(Arrays.asList(CHARACTER_A, CHARACTER_B), TEAM_B_TWO_MEMBERS.getTeamList());
+
+        assertEquals(Arrays.asList(CHARACTER_A, CHARACTER_B, CHARACTER_C, CHARACTER_D, CHARACTER_E, CHARACTER_F),
+                TEAM_C_FULL_TEAM.getTeamList());
+
+    }
 
     @Test
     public void addMember_teamLessThan6_success() {
@@ -126,7 +159,6 @@ class TeamTest {
 
         assertEquals(expectedTeam, actualTeam);
     }
-
 
     @Test
     public void toString_testcases() {
