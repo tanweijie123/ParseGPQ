@@ -2,11 +2,14 @@ package project.model;
 
 import java.util.List;
 
+/**
+ * Creates a immutable Tunnel
+ */
 public class Tunnel {
-    public int id;
-    public Team team1;
-    public Team team2;
-    public Team team3;
+    private final int id;
+    private final Team team1;
+    private final Team team2;
+    private final Team team3;
 
     public Tunnel(int id) {
         this.id = id;
@@ -20,6 +23,26 @@ public class Tunnel {
         this.team1 = t1;
         this.team2 = t2;
         this.team3 = t3;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public Team getTeam1() {
+        return team1;
+    }
+
+    public Team getTeam2() {
+        return team2;
+    }
+
+    public Team getTeam3() {
+        return team3;
+    }
+
+    public Team[] getAllTeam() {
+        return new Team[] { team1, team2, team3 };
     }
 
     /**
@@ -58,10 +81,10 @@ public class Tunnel {
             int capacity = team1.size() + team2.size() + team3.size();
             int numTeams = (int) Math.ceil(capacity / 6.0);
 
-            assert(numTeams <= 3 && numTeams >= 0);
+            assert(numTeams >= 0 && numTeams <= 3);
 
             if (numTeams == 2) { //can be shrink into 1 or 2 parties
-                List<Character> list = team3.teamList;
+                List<Character> list = team3.getTeamList();
                 while (list.size() > 0) {
                     if (team1.size () > team2.size())
                         team2.addMember(list.remove(0));
@@ -69,11 +92,11 @@ public class Tunnel {
                         team1.addMember(list.remove(0));
                 }
             } else if (numTeams == 1) {
-                List<Character> list = team3.teamList;
+                List<Character> list = team3.getTeamList();
                 while (list.size() > 0) {
                     team1.addMember(list.remove(0));
                 }
-                list = team2.teamList;
+                list = team2.getTeamList();
                 while (list.size() > 0) {
                     team1.addMember(list.remove(0));
                 }

@@ -5,10 +5,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Team {
-    public List<Character> teamList;
+    private List<Character> teamList;
 
     public Team() {
         teamList = new ArrayList<>();
+    }
+
+    public Character get(int index) {
+        return teamList.get(index);
+    }
+
+    public List<Character> getTeamList() {
+        return teamList;
     }
 
     public boolean addMember(Character c) {
