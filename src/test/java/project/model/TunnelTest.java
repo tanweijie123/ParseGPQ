@@ -165,5 +165,5 @@ class TunnelTest {
         assertTrue(t0.equals(t1));
     }
 
-    //remaining test case: compact() 
+    //remaining test case: compact()
 }
