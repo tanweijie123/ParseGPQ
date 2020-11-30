@@ -16,13 +16,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-    }
-}
 dependencies {
 
     compile "org.apache.poi:poi-ooxml:4.1.2"
@@ -57,4 +50,18 @@ shadowJar {
 
 run {
     enableAssertions = true
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
 }
