@@ -39,7 +39,8 @@ public class Download {
         BufferedInputStream inStream = null;
         FileOutputStream file = null;
         try {
-            outputFile.mkdirs();
+            outputFile.getParentFile().mkdirs();
+            outputFile.createNewFile();
             inStream = new BufferedInputStream(url.openStream());
             file = new FileOutputStream(outputFile);
             file.write(inStream.readAllBytes());
@@ -53,6 +54,7 @@ public class Download {
         } catch (IOException e) {
             System.err.println("Unable to get from link or connect to link. This could be due to network issue, " +
                     "or your Google Sheet is not open for unlisted download.");
+            e.printStackTrace();
         } finally {
             try {
                 file.close();

@@ -1,5 +1,6 @@
 package project;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -105,10 +106,21 @@ public class ExportExcel {
             cell.setCellValue(split[i-1]);
         }
 
-        try (FileOutputStream output = new FileOutputStream(outputFilePath)) {
+        FileOutputStream output = null;
+        try {
+            File file = new File(outputFilePath);
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            output = new FileOutputStream(file);
             wb.write(output);
+            output.close();
         } catch (IOException e) {
             System.err.println("Unable to write to excel file");
+            e.printStackTrace();
+        } finally {
+            try {
+                output.close();
+            } catch (IOException | NullPointerException e) { }
         }
     }
 
