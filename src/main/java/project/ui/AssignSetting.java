@@ -2,6 +2,7 @@ package project.ui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import project.MainApp;
@@ -18,13 +19,18 @@ public class AssignSetting extends UiPart<AnchorPane> {
     private List<String> pasteList;
 
     @FXML
-    private Pane paneExcel;
+    private TextArea tbNote;
 
     public AssignSetting(MainApp mainWindow, List<String> pasteList) {
         super(mainWindow, "/view/AssignSetting.fxml");
         this.pasteList = pasteList;
 
         mainWindow.setNextButtonText("Generate Excel");
+        tbNote.setText("This screen is currently WIP.\n" +
+                "For now, click \"Generate\" and \n" +
+                "   1. This program will close automatically. \n" +
+                "   2. Excel program will open in place of this program \n" +
+                "   3. Do be patient (3-5s), as I did not add a loading bar :P\n");
     }
 
     @Override

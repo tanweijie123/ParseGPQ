@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -18,7 +19,10 @@ class ConfigJsonAdapter {
 
         Gson gson = builder.create();
         String exportString = gson.toJson(config);
+        return writeToFile(exportString);
+    }
 
+    static boolean writeToFile(String exportString) {
         try {
             File file = new File("config.json");
             file.createNewFile();
@@ -34,6 +38,15 @@ class ConfigJsonAdapter {
     }
 
     static Optional<Config> loadSettings() {
+        File file = new File("config.json");
+        if (!file.exists()) {
+            writeToFile("{\n" +
+                    "  \"googleSheetLink\": \"\",\n" +
+                    "  \"downloadedExcelPath\": \"data/forms.xlsx\",\n" +
+                    "  \"exportExcelPath\": \"data/output.xlsx\"\n" +
+                    "}");
+        }
+
         try {
             Scanner readFile = new Scanner(new File("config.json"));
             String importString = readFile.useDelimiter("\\Z").next();
@@ -41,8 +54,8 @@ class ConfigJsonAdapter {
 
             Gson gson = new Gson();
             return Optional.of(gson.fromJson(importString, Config.class));
-        } catch (FileNotFoundException e) {
-            return Optional.empty(); //create default file?
+        } catch (Exception e) {
+            return Optional.empty(); //this should not happen.
         }
     }
 }

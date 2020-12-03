@@ -20,8 +20,10 @@ public class Assignment {
 
     public static void loadParticipantList(List<String> list) {
         participantList = list.stream()
+                .filter(x -> !x.isBlank())
                 .map(x -> parseStringToCharacter(x))
                 .sorted(Comparator.comparingInt((Character x) -> x.getFloor()).reversed())
+                .distinct()
                 .collect(Collectors.toList());
     }
 
