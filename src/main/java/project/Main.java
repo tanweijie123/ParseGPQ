@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import project.files.Download;
+import project.logic.Assignment;
 import project.model.Character;
 import project.model.Team;
 import project.model.Tunnel;
+import project.util.EntryParser;
 import project.util.Storage;
 
 public class Main {
@@ -35,7 +37,7 @@ public class Main {
         List<Character> participantList = loadParticipants(participants);
 
         participantList.sort(Comparator.comparingInt((Character x) -> x.getFloor()).reversed());
-        printAllParticipants(participantList);
+        Assignment.printAllParticipants(participantList);
 
         //Start assigning
         Storage assign = new Storage("data/assign.txt");
@@ -100,18 +102,8 @@ public class Main {
                 Character c = null;
 
                 if (split.length > 0) { //at least have name
-                    split[0] = split[0].strip();
+                    String ign = EntryParser.parseIgn(split[0]);
 
-                    //TODO: check if before delimiter is an integer
-                    if (split[0].contains(".")) {
-                        split[0] = split[0].substring(split[0].indexOf(".") + 1);
-                    } else if (split[0].contains(")")) {
-                        split[0] = split[0].substring(split[0].indexOf(")") + 1);
-                    } else if (split[0].contains(" ")) {
-                        split[0] = split[0].substring(split[0].indexOf(" ") + 1);
-                    } // else: the whole split[0] considered as IGN.
-
-                    String ign = split[0].strip();
                     if (aliasMap.containsKey(ign)) {
                         c = aliasMap.get(ign);
                     } else if (aliasMap.containsKey(ign.toLowerCase())) { //Matched ALIAS
@@ -145,14 +137,7 @@ public class Main {
         return charList;
     }
 
-    public static void printAllParticipants(List<Character> participantList) {
-        System.out.println("================================== ALL PARTICIPANTS ================================");
-        for (int i = 1; i <= participantList.size(); i++) {
-            Character c = participantList.get(i-1);
-            System.out.printf("%d: %s\n", i, c);
-        }
-        System.out.println("================================= END OF PARTICIPANTS ===============================\n\n");
-    }
+
 
     public static List<Tunnel> assignHard(List<String> assignList, List<Character> participantList) {
         List<Tunnel> tunnelList = new ArrayList<>();

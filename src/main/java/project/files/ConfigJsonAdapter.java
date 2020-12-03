@@ -42,7 +42,7 @@ class ConfigJsonAdapter {
             Gson gson = new Gson();
             return Optional.of(gson.fromJson(importString, Config.class));
         } catch (FileNotFoundException e) {
-            return Optional.empty();
+            return Optional.empty(); //create default file?
         }
     }
 }
