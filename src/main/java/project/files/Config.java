@@ -9,8 +9,8 @@ public class Config {
 
     private Config() {
         googleSheetLink = "";
-        downloadedExcelPath = "";
-        exportExcelPath = "";
+        downloadedExcelPath = "data/forms.xlsx";
+        exportExcelPath = "data/output.xlsx";
     }
 
     private static void updateSettings(Config newConfig) {
@@ -20,12 +20,15 @@ public class Config {
         }
 
         //update all values.
-        config.googleSheetLink = newConfig.googleSheetLink;
-        config.downloadedExcelPath = newConfig.downloadedExcelPath;
-        config.exportExcelPath = newConfig.exportExcelPath;
+        if (!newConfig.googleSheetLink.isBlank())
+            config.googleSheetLink = newConfig.googleSheetLink;
+        if (!newConfig.downloadedExcelPath.isBlank())
+            config.downloadedExcelPath = newConfig.downloadedExcelPath;
+        if (!newConfig.exportExcelPath.isBlank())
+            config.exportExcelPath = newConfig.exportExcelPath;
     }
 
-    public static Config getSettings() {
+    public static Config getConfig() {
         if (config == null)
             load();
         return config;
@@ -46,6 +49,10 @@ public class Config {
         return config.googleSheetLink;
     }
 
+    public String getDownloadedExcelPath() {
+        return config.downloadedExcelPath;
+    }
+
     public String getExportExcelPath() {
         return config.exportExcelPath;
     }
@@ -55,7 +62,12 @@ public class Config {
         return save();
     }
 
-    public boolean setExportExcelLink(String path) {
+    public boolean setDownloadExcelPath(String path) {
+        config.downloadedExcelPath = path;
+        return save();
+    }
+
+    public boolean setExportExcelPath(String path) {
         config.exportExcelPath = path;
         return save();
     }

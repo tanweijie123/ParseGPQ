@@ -78,7 +78,7 @@ public class ExportExcel {
                     //Name type
                     cell.setCellValue(content[i][j]);
 
-                    if (!content[i][j].startsWith("Team") && j % 2 == 1) {
+                    if (!content[i][j].startsWith("Team") && j % 2 == 1 && i != 0) { //todo: set date as compulsory
                         XSSFCellStyle cellStyle = wb.createCellStyle();
                         addCellStyle_BorderAll(cellStyle);
                         short colorFormula = (short) (((i / 10)*3 + (j / 2)) % colors.length);
