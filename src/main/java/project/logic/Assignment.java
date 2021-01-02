@@ -1,6 +1,6 @@
 package project.logic;
 
-import project.ExportExcel;
+import project.files.ExportExcel;
 import project.files.Config;
 import project.model.Character;
 import project.model.rule.Rule;
