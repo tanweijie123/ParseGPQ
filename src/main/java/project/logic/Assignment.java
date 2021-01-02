@@ -3,8 +3,10 @@ package project.logic;
 import project.ExportExcel;
 import project.files.Config;
 import project.model.Character;
+import project.model.rule.Rule;
 import project.model.Team;
 import project.model.Tunnel;
+import project.model.rule.RuleList;
 import project.util.EntryParser;
 
 import java.time.LocalDateTime;
@@ -25,6 +27,16 @@ public class Assignment {
                 .sorted(Comparator.comparingInt((Character x) -> x.getFloor()).reversed())
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    public static void loadTunnel() {
+        int numParty = (int) Math.ceil(participantList.size() / 6.0);
+        int numTunnel = (int) Math.ceil(numParty / 3.0);
+
+        for (int i = 1; i <= numTunnel; i++) {
+            Tunnel t = new Tunnel(i);
+            tunnelList.add(t);
+        }
     }
 
     public static void compactEveryTunnel() {
@@ -143,11 +155,10 @@ public class Assignment {
         }
     }
 
-
-
-
-
-
+    public static void runRule(Rule rule) {
+        System.out.println(rule.toString());
+        RuleList.getFunction(rule).accept(participantList, tunnelList);
+    }
 
     /** HELPER METHODS */
     private static Character parseStringToCharacter(String s) {
@@ -178,8 +189,8 @@ public class Assignment {
             }
 
             if (split.length > 2) {
-                if (EntryParser.tryParseFloor(split[1])) {
-                    c = c.setFloor(EntryParser.parseFloor(split[1]));
+                if (EntryParser.tryParseFloor(split[2])) {
+                    c = c.setFloor(EntryParser.parseFloor(split[2]));
                 }
             }
 
@@ -191,22 +202,11 @@ public class Assignment {
     }
 
     private static void assignTunnel(List<Tunnel> tunnelList, List<Character> charList, int tunnelID) {
-        Tunnel t = getTunnelOrCreateNew(tunnelList, tunnelID);
+        Tunnel t = tunnelList.get(tunnelID - 1);
 
         while (!t.isFull() && charList.size() > 0) {
             Team team = t.getLowestTeam();
             team.addMember(charList.remove(0));
         }
-    }
-
-    private static Tunnel getTunnelOrCreateNew(List<Tunnel> tunnelList, int tunnelID) {
-        return tunnelList.stream()
-                .filter(x -> x.getId() == tunnelID)
-                .findFirst()
-                .orElseGet(() -> {
-                    Tunnel tu = new Tunnel(tunnelID);
-                    tunnelList.add(tu);
-                    return tu;
-                });
     }
 }

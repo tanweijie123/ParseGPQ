@@ -1,16 +1,23 @@
 package project.files;
 
+import project.model.rule.Rule;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Config {
     private static Config config; //Singleton
 
     private String googleSheetLink;
     private String downloadedExcelPath;
     private String exportExcelPath;
+    private List<Rule> ruleList;
 
     private Config() {
         googleSheetLink = "";
         downloadedExcelPath = "data/forms.xlsx";
         exportExcelPath = "data/output.xlsx";
+        ruleList = new ArrayList<>();
     }
 
     private static void updateSettings(Config newConfig) {
@@ -26,6 +33,8 @@ public class Config {
             config.downloadedExcelPath = newConfig.downloadedExcelPath;
         if (!newConfig.exportExcelPath.isBlank())
             config.exportExcelPath = newConfig.exportExcelPath;
+        if(!newConfig.ruleList.isEmpty())
+            config.ruleList = newConfig.ruleList;
     }
 
     public static Config getConfig() {
@@ -57,6 +66,13 @@ public class Config {
         return config.exportExcelPath;
     }
 
+    /**
+     * Returns a cloned version of the Rule List so that it is not mutable outside of config.
+     */
+    public List<Rule> getRuleList() {
+        return new ArrayList<>(ruleList);
+    }
+
     public boolean setGoogleSheetLink(String path) {
         config.googleSheetLink = path;
         return save();
@@ -69,6 +85,14 @@ public class Config {
 
     public boolean setExportExcelPath(String path) {
         config.exportExcelPath = path;
+        return save();
+    }
+
+    public boolean setRuleList(List<Rule> newRuleList) {
+        if (newRuleList == null)
+            newRuleList = new ArrayList<>();
+
+        config.ruleList = newRuleList;
         return save();
     }
 

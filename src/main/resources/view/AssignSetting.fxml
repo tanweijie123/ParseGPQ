@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
-         <children>
-            <TextArea fx:id="tbNote" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-         </children>
-      </VBox>
+      <Label layoutX="27.0" layoutY="29.0" text="Assignment Rules (Evaluated from top down)" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0" />
+      <ListView fx:id="listViewRules" layoutX="30.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="50.0" />
+      <Button fx:id="btnNewRule" layoutX="454.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#btnNewRuleClicked" text="New Rule" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="23.0" />
+      <Button fx:id="btnClearRule" layoutX="518.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#btnClearRuleClicked" text="Clear" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="23.0" />
    </children>
 </AnchorPane>
