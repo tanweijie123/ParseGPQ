@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.stage.Stage?>
+
+<Stage alwaysOnTop="true" minHeight="600.0" minWidth="800.0" resizable="false" title="Add Rule" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <scene>
+      <Scene>
+         <root>
+            <AnchorPane prefHeight="400.0" prefWidth="600.0">
+               <children>
+                   <Label layoutX="14.0" layoutY="34.0" text="Rule Type" AnchorPane.leftAnchor="20.0" />
+                  <ComboBox fx:id="cbRuleType" layoutX="93.0" layoutY="29.0" prefWidth="150.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0" />
+                  <Label fx:id="lblType" layoutX="14.0" layoutY="94.0" text="Job" AnchorPane.leftAnchor="20.0" />
+                  <ComboBox fx:id="cbRuleContent" layoutX="100.0" layoutY="90.0" prefWidth="150.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="30.0" />
+                  <Button fx:id="btnAdd" defaultButton="true" layoutX="83.0" layoutY="226.0" mnemonicParsing="false" onMouseClicked="#btnAddClicked" text="Add" />
+                  <Button fx:id="btnCancel" cancelButton="true" layoutX="248.0" layoutY="226.0" mnemonicParsing="false" onMouseClicked="#btnCancelClicked" text="Cancel" />
+               </children>
+            </AnchorPane>
+         </root>
+      </Scene>
+   </scene>
+</Stage>

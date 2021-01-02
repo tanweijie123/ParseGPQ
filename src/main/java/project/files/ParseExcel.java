@@ -38,7 +38,7 @@ public class ParseExcel {
             String ign = currentRow.getCell(1).getStringCellValue().strip();
             int floor = (int) currentRow.getCell(2).getNumericCellValue();
             String job = currentRow.getCell(3).getStringCellValue();
-            job = job.substring(job.indexOf(":") + 1).strip().replace(" ", "").toUpperCase();
+            //job = job.substring(job.indexOf(":") + 1).strip().replace(" ", "").toUpperCase();
             Cell alias = currentRow.getCell(4);
 
             //check if it is a duplicate ign from above, remove it

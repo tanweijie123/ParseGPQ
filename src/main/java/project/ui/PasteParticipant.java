@@ -54,7 +54,5 @@ public class PasteParticipant extends UiPart<AnchorPane> {
                 }
             }
         }
-
-
     }
 }
