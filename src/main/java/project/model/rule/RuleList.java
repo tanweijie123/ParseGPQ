@@ -39,7 +39,7 @@ public class RuleList {
                     Team[] team = tunnelList.get(i).getAllTeam();
 
                     for (int j = 0; j < 3 ; j++) {
-                        if (concernedList.size() > 0) {
+                        if (concernedList.size() > 0 && !team[j].isFull()) {
                             Character c = concernedList.remove(0);
                             team[j].addMember(c);
                             participantList.remove(c);
