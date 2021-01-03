@@ -4,8 +4,8 @@ import project.files.ExportExcel;
 import project.files.Config;
 import project.model.Character;
 import project.model.rule.Rule;
-import project.model.Team;
-import project.model.Tunnel;
+import project.model.alloc.Team;
+import project.model.alloc.Tunnel;
 import project.model.rule.RuleList;
 import project.util.EntryParser;
 

@@ -11,6 +11,10 @@ import project.util.EntryParser;
 
 import java.util.Arrays;
 
+/**
+ * This is the second page of the app.
+ * It collects the participants on the left textbox, and reflect if the participant is existing in the database.
+ */
 public class PasteParticipant extends UiPart<AnchorPane> {
 
     @FXML

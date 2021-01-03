@@ -21,6 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This is the third (and the last) page of the app.
+ * It allows the user to add custom rules about participant allocation.
+ */
 public class AssignSetting extends UiPart<AnchorPane> {
 
     private List<String> pasteList;

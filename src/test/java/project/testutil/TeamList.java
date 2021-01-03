@@ -7,8 +7,7 @@ import static project.testutil.CharacterList.CHARACTER_D;
 import static project.testutil.CharacterList.CHARACTER_E;
 import static project.testutil.CharacterList.CHARACTER_F;
 
-import org.apache.poi.ss.formula.functions.T;
-import project.model.Team;
+import project.model.alloc.Team;
 
 public class TeamList {
     public static final Team TEAM_ZERO_MEMBERS = new Team();

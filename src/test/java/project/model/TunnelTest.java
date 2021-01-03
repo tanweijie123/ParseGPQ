@@ -5,7 +5,6 @@ import static project.testutil.CharacterList.CHARACTER_A;
 import static project.testutil.CharacterList.CHARACTER_B;
 import static project.testutil.CharacterList.CHARACTER_C;
 import static project.testutil.CharacterList.CHARACTER_D;
-import static project.testutil.CharacterList.CHARACTER_E;
 import static project.testutil.CharacterList.CHARACTER_F;
 import static project.testutil.CharacterList.CHARACTER_G;
 import static project.testutil.TeamList.TEAM_A_SINGLE_MEMBER;
@@ -18,6 +17,8 @@ import static project.testutil.TunnelList.TUNNEL_FULLTEAM_DUP_ID777;
 import static project.testutil.TunnelList.TUNNEL_PARTIAL_ID888;
 
 import org.junit.jupiter.api.Test;
+import project.model.alloc.Team;
+import project.model.alloc.Tunnel;
 
 class TunnelTest {
 

@@ -1,11 +1,7 @@
-package project.util;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+package project.model.job;
 
 public class JobList {
-    private static final List<String> jobList = Arrays.asList(
+    public static final String[] FULL_JOB_LIST = new String[]{
             "ANIMA: Ho Young",
             "CHILD OF GOD: Zero",
             "CYGNUS: Flame Wizard",
@@ -53,9 +49,5 @@ public class JobList {
             "SENGOKU: Hayato",
             "SENGOKU: Kanna",
             "SPECIAL: Kinesis"
-    );
-
-    public static List<String> getJobList() {
-        return new ArrayList<>(jobList);
-    }
+    };
 }
