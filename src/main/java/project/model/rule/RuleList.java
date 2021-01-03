@@ -1,23 +1,17 @@
 package project.model.rule;
 
 import project.model.Character;
-import project.model.Team;
-import project.model.Tunnel;
+import project.model.alloc.Team;
+import project.model.alloc.Tunnel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public class RuleList {
-    private static final List<String> ruleList = Arrays.asList(
+    public static final String[] FULL_RULE_LIST = new String[] {
             "Assign Job Per Party" //[0]
-    );
-
-    public static List<String> getRuleList() {
-        return new ArrayList<>(ruleList);
-    }
+    };
 
     public static Rule getRule(int idx, String content) {
         switch (idx) {
@@ -28,6 +22,9 @@ public class RuleList {
 
     /**
      * Function Library
+     * This method is used for lookup of Rule function.
+     * The reason it is not polymorphic in Rule class is because Rule is being serialised -> which means
+     *    public will be able to modify the function.
      */
     public static BiConsumer<List<Character>, List<Tunnel>> getFunction(Rule rule) {
         BiConsumer<List<Character>, List<Tunnel>> code = null;
@@ -50,6 +47,5 @@ public class RuleList {
         }
 
         return code;
-
     }
 }

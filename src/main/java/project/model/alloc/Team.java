@@ -1,4 +1,6 @@
-package project.model;
+package project.model.alloc;
+
+import project.model.Character;
 
 import java.util.ArrayList;
 import java.util.List;

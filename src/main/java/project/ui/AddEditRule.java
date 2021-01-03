@@ -12,7 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import project.model.rule.Rule;
 import project.model.rule.RuleList;
-import project.util.JobList;
+import project.model.job.JobList;
 
 public class AddEditRule extends Application {
     private Rule newRule;
@@ -57,11 +57,11 @@ public class AddEditRule extends Application {
     }
 
     private ObservableList<String> initRuleType() {
-        return FXCollections.observableList(RuleList.getRuleList());
+        return FXCollections.observableArrayList(RuleList.FULL_RULE_LIST);
     }
 
     private ObservableList<String> initJobList() {
-        return FXCollections.observableList(JobList.getJobList());
+        return FXCollections.observableArrayList(JobList.FULL_JOB_LIST);
     }
 
     private void displaySubsequentContent(int idx) {

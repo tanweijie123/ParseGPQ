@@ -4,7 +4,7 @@ import static project.testutil.TeamList.TEAM_A_SINGLE_MEMBER;
 import static project.testutil.TeamList.TEAM_B_TWO_MEMBERS;
 import static project.testutil.TeamList.TEAM_C_FULL_TEAM;
 
-import project.model.Tunnel;
+import project.model.alloc.Tunnel;
 
 public class TunnelList {
     public static final Tunnel TUNNEL_EMPTY_ID999 = new Tunnel(999);

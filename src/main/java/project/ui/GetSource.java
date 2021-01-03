@@ -11,15 +11,17 @@ import project.MainApp;
 import project.files.Config;
 import project.files.Download;
 import project.files.ParseExcel;
-import project.logic.Database;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.NoSuchFileException;
 import java.util.NoSuchElementException;
 
+/**
+ * This is the first page of the app.
+ * It collects the Google Sheet link from the user, and download the excel file and parse into database.
+ */
 public class GetSource extends UiPart<AnchorPane> {
 
     @FXML

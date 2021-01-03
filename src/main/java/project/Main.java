@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 import project.files.Download;
 import project.logic.Assignment;
 import project.model.Character;
-import project.model.Team;
-import project.model.Tunnel;
+import project.model.alloc.Team;
+import project.model.alloc.Tunnel;
 import project.util.EntryParser;
 import project.util.Storage;
 
