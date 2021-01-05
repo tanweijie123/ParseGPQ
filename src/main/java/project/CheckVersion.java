@@ -7,16 +7,15 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 
 public class CheckVersion {
-    private static String releaseLink = "https://github.com/tanweijie123/ParseGPQ/releases/latest/";
+    private static String releaseLink = "https://tanwj.link/Download";
 
     public static void main(String[] args) throws IOException {
         String ver = CheckVersion.class.getPackage().getImplementationVersion();
         System.out.println("Local Version: v" + ver + "\n");
 
-        String versionInGitHub = "";
+        String releaseVer = "";
         try {
-            String link = Jsoup.connect(releaseLink).get().location();
-            versionInGitHub = link.substring(link.lastIndexOf("/") + 2); // remove /v from version
+            releaseVer = Jsoup.connect(releaseLink).execute().parse().select("blockquote").select("a").text();
         } catch (UnknownHostException e) {
             //unable to connect to internet
         } catch (HttpStatusException e) {
@@ -25,10 +24,12 @@ public class CheckVersion {
             //any type of general IO exception
         }
 
-        if (versionInGitHub.isBlank()) {
+        if (releaseVer.isBlank()) {
             System.out.println("Unable to check for newer version.");
-        } else if (versionInGitHub != ver) {
-            System.out.printf("Different version detected. GitHub=v%s; Local=v%s\n", versionInGitHub, ver);
+        } else if (!releaseVer.strip().equals(ver.strip())) {
+            System.out.printf("Different version detected. GitHub=v%s; Local=v%s\n", releaseVer, ver);
+        } else {
+            System.out.println("You have the latest version!");
         }
     }
 }

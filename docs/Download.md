@@ -4,7 +4,9 @@ title: Download
 ---
 
 ## Current Release
-> Version <a href="release/ParseGPQ-2.0.0.jar" download style="font-size:20">2.0.0</a>
+> Version <a href="release/ParseGPQ-2.0.0.jar" download>2.0.0</a>
+> 
+> Release Date: Jan 2021
 > 
 > Release Note: 
 > * Brand New GUI
