@@ -1,6 +1,9 @@
 title: "ParseGPQ"
 theme: minima
 
+minima:
+  skin: dark
+
 header_pages: 
   - FirstTimeSetup.md
   - UserGuide.md
