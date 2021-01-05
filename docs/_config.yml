@@ -1,2 +1,8 @@
 title: "ParseGPQ"
 theme: minima
+
+header_pages: 
+  - FirstTimeSetup.md
+  - UserGuide.md
+  - Download.md
+  
