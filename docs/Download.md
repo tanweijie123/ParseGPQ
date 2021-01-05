@@ -1,3 +1,8 @@
+---
+layout: page
+title: Download
+---
+
 <div markdown="block" class="alert alert-success">
 
 :heavy_check_mark: **Current Release:**
