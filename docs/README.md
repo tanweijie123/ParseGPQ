@@ -10,10 +10,10 @@ After allocating successfully, it will produce an Excel file.
 
 ## How do I get started? 
 1. Ensure that you have installed `Java 14` or above. [Guide to install Java on Windows 10](https://devwithus.com/install-java-windows-10/).
-2. [One Time Setup](FirstTimeSetup.md)
+2. [One Time Setup](https://tanweijie123.github.io/ParseGPQ/FirstTimeSetup.md)
 
 ## Guides
-* [User Guide](UserGuide.md)
+* [User Guide](https://tanweijie123.github.io/ParseGPQ/UserGuide.md)
 
 ## Acknowledgement
 * This project uses libraries from [ControlsFx], [Apache POI], [GSON], [Jsoup].
