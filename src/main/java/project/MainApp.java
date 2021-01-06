@@ -17,11 +17,13 @@ import project.ui.UiPart;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
 
 public class MainApp extends Application {
 
     private static final String RELEASE_LINK = "https://tanwj.link/Download";
     private UiPart currentlyShowing;
+    private CompletableFuture<String> checkLatestVersionCF;
 
     @FXML
     private AnchorPane mainPaneTop;
@@ -42,6 +44,17 @@ public class MainApp extends Application {
     public void init() throws Exception {
         super.init();
         Config config = Config.getConfig();
+        checkLatestVersionCF = CompletableFuture.supplyAsync(
+                () -> {
+                    try {
+                        return Jsoup.connect(RELEASE_LINK).execute().parse().select("blockquote").select("a").text();
+                    } catch (IOException e) {
+                        System.err.println("[ERROR] Unable to connect to download page.");
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+        ).exceptionally(ex -> null);
     }
 
     @Override
@@ -62,14 +75,9 @@ public class MainApp extends Application {
             lblVersionNo.setText("<Unable to retrieve>");
         } else {
             lblVersionNo.setText(ver);
-            try {
-                String releaseVer = Jsoup.connect(RELEASE_LINK).execute().parse().select("blockquote").select("a").text();
-                if (!releaseVer.strip().equals(ver.strip())) {
-                    btnUpdateNow.setVisible(true);
-                }
-            } catch (Exception e) {
-                System.err.println("[ERROR] Unable to connect to download page.");
-                e.printStackTrace();
+            String releaseVer = checkLatestVersionCF.join();
+            if (releaseVer!= null && !releaseVer.strip().equals(ver.strip())) {
+                btnUpdateNow.setVisible(true);
             }
         }
 
