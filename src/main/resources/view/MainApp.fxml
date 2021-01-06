@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -20,7 +21,10 @@
             <AnchorPane fx:id="mainPaneTop" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green" />
             <AnchorPane fx:id="mainPaneBtm" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: pink" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="btnNext" layoutX="690.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#btnNextClick" prefHeight="25.0" prefWidth="74.0" text="Next" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+                  <Button fx:id="btnNext" defaultButton="true" layoutX="690.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#btnNextClick" prefHeight="25.0" prefWidth="74.0" text="Next" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+                  <Label layoutX="24.0" layoutY="39.0" text="Version: " AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" />
+                  <Label fx:id="lblVersionNo" layoutX="76.0" layoutY="43.0" text="{versionNo}" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="80.0" />
+                  <Button fx:id="btnUpdateNow" layoutX="150.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#btnUpdateClick" text="Update!" visible="false" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="120.0" />
                </children></AnchorPane>
          </children>
       </GridPane>
