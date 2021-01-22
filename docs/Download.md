@@ -1,6 +1,8 @@
 ---
 layout: page
 title: Download
+redirect_from:
+    - /download
 ---
 
 ## Current Release
