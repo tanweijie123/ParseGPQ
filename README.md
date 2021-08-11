@@ -2,10 +2,9 @@ This project had been adapted into [GPQbot](https://github.com/tanweijie123/GPQb
 
 ## What is this project about? 
 * ParseGPQ is a Java software application that will take a list of people and allocate them into teams. 
-The default allocation scheme is assigning based on damage output into groups of 3 team, where each team has 6 people.
+* This application is specifically written for MapleStory's Guild Party Quest allocation, where the default allocation scheme is assigning based on damage output into groups of 3 team, where each team has 6 people.
 After allocating successfully, it will produce an Excel file. 
-  
-* For more details, visit the [project website](https://tanweijie123.github.io/ParseGPQ/).
+
   
 ## Why is this project useful? 
 * Users will not have to manually sort and assign people in Excel.
@@ -15,7 +14,7 @@ After allocating successfully, it will produce an Excel file.
 2. [One Time Setup](https://tanweijie123.github.io/ParseGPQ/FirstTimeSetup.html)
 
 ## Guides
-* [User Guide](https://tanweijie123.github.io/ParseGPQ/UserGuide.html)
+* [User Guide - Not Updated](https://tanweijie123.github.io/ParseGPQ/UserGuide.html)
 
 ## Acknowledgement
 * This project uses libraries from [ControlsFx], [Apache POI], [GSON], [Jsoup].
