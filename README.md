@@ -1,3 +1,5 @@
+This project had been adapted into [GPQbot](https://github.com/tanweijie123/GPQbot) project, hence this project will no longer be updated. 
+
 ## What is this project about? 
 * ParseGPQ is a Java software application that will take a list of people and allocate them into teams. 
 The default allocation scheme is assigning based on damage output into groups of 3 team, where each team has 6 people.
